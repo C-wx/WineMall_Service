@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="winemall.mapper.OrderLogMapper">
+  <resultMap id="BaseResultMap" type="winemall.bean.OrderLog">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="PRODUCT_ID" jdbcType="BIGINT" property="productId" />
+    <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+    <result column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="NUM" jdbcType="INTEGER" property="num" />
+    <result column="PRICE" jdbcType="REAL" property="price" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, ORDER_ID, USER_ID, NUM, PRICE, TYPE, CREATE_TIME, UPDATE_TIME, STATUS
+  </sql>
+  <select id="selectByExample" parameterType="winemall.bean.OrderLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hw_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hw_order_log
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from hw_order_log
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="winemall.bean.OrderLogExample">
+    delete from hw_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.OrderLog" useGeneratedKeys="true">
+    insert into hw_order_log (PRODUCT_ID, ORDER_ID, USER_ID, 
+      NUM, PRICE, TYPE, CREATE_TIME, 
+      UPDATE_TIME, STATUS)
+    values (#{productId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{num,jdbcType=INTEGER}, #{price,jdbcType=REAL}, #{type,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.OrderLog" useGeneratedKeys="true">
+    insert into hw_order_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        PRODUCT_ID,
+      </if>
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="num != null">
+        NUM,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="winemall.bean.OrderLogExample" resultType="java.lang.Long">
+    select count(*) from hw_order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hw_order_log
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.productId != null">
+        PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderId != null">
+        ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        USER_ID = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.num != null">
+        NUM = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        PRICE = #{record.price,jdbcType=REAL},
+      </if>
+      <if test="record.type != null">
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hw_order_log
+    set ID = #{record.id,jdbcType=BIGINT},
+      PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
+      ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      USER_ID = #{record.userId,jdbcType=BIGINT},
+      NUM = #{record.num,jdbcType=INTEGER},
+      PRICE = #{record.price,jdbcType=REAL},
+      TYPE = #{record.type,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="winemall.bean.OrderLog">
+    update hw_order_log
+    <set>
+      <if test="productId != null">
+        PRODUCT_ID = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="num != null">
+        NUM = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        PRICE = #{price,jdbcType=REAL},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="winemall.bean.OrderLog">
+    update hw_order_log
+    set PRODUCT_ID = #{productId,jdbcType=BIGINT},
+      ORDER_ID = #{orderId,jdbcType=BIGINT},
+      USER_ID = #{userId,jdbcType=BIGINT},
+      NUM = #{num,jdbcType=INTEGER},
+      PRICE = #{price,jdbcType=REAL},
+      TYPE = #{type,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
