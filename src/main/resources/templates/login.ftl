@@ -2,14 +2,17 @@
 <html lang="en">
 <#assign base=request.contextPath />
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
+    <script src="${base}/js/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!-- Loding font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
-    <!--login-->
     <link rel="stylesheet" href="${base}/css/login.css">
+    <script src="${base}/js/login.js"></script>
+
+    <!--layui-->
+    <script src="${base}/plugins/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="${base}/plugins/layui/css/layui.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="${base}/plugins/font-awesome/css/font-awesome.min.css">
     <title>珑泉古酿</title>
 </head>
 <body>
@@ -22,23 +25,47 @@
         <div class="col-lg-8">
             <div class="login">
                 <h2>珑泉古酿商家端</h2>
-                <form>
+                <form id="login_form">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="text" placeholder="账号" id="account" name="account" class="form-control"/>
                     </div>
                     <br>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="password" placeholder="密码" id="pwd" name="pwd" class="form-control"/>
                     </div>
                     <br>
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <div class="form-group row">
+                        <div class="col-lg-8">
+                            <input type="text" placeholder="验证码" id="verifyCode" name="verifyCode" class="form-control"/>
+                        </div>
+                        <div class="col-lg-4">
+                            <img src="/verycode/getImgCode" id="imgObj" onclick="changeImg()">
+                        </div>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-lg btn-block btn-success">Sign in</button>
+                    <button type="button" class="btn btn-lg btn-block btn-success" id="login_btn">Sign in</button>
                 </form>
+            </div>
         </div>
     </div>
 </div>
 </body>
+<script>
+    function changeImg() {
+        var imgSrc = $("#imgObj");
+        var src = imgSrc.attr("src");
+        imgSrc.attr("src", chgUrl(src));
+    }
+    function chgUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        urlurl = url.substring(0, 17);
+        if ((url.indexOf("&") >= 0)) {
+            urlurl = url + "×tamp=" + timestamp;
+        } else {
+            urlurl = url + "?timestamp=" + timestamp;
+        }
+        urlurl = "${base}/verycode/getImgCode?timestamp=" + timestamp + "&imgCodeType=NUM";
+        return urlurl;
+    }
+</script>
 </html>

@@ -11,6 +11,8 @@ public class Order {
 
     private String orderCode;
 
+    private String deliveryCode;
+
     private Integer num;
 
     private Float price;
@@ -38,6 +40,8 @@ public class Order {
     private Date commentTime;
 
     private String status;
+
+    private Product product;
 
     public Long getId() {
         return id;
@@ -69,6 +73,14 @@ public class Order {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode == null ? null : orderCode.trim();
+    }
+
+    public String getDeliveryCode() {
+        return deliveryCode;
+    }
+
+    public void setDeliveryCode(String deliveryCode) {
+        this.deliveryCode = deliveryCode == null ? null : deliveryCode.trim();
     }
 
     public Integer getNum() {
@@ -181,5 +193,13 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

@@ -41,15 +41,15 @@ body {
 .login {
     width: 100%;
     height: 500px;
+    border-radius:20px;
     background-color: #fff;
-    padding: 15px;
-    padding-top: 30px;
+    padding: 30px 15px 15px;
 }
 
-.login h1 {
+.login h2 {
     margin-top: 30px;
     font-weight: bold;
-    font-size: 60px;
+    font-size: 40px;
     letter-spacing: 3px;
 }
 

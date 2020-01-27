@@ -6,6 +6,7 @@
     <result column="PRODUCT_ID" jdbcType="BIGINT" property="productId" />
     <result column="USER_ID" jdbcType="BIGINT" property="userId" />
     <result column="ORDER_CODE" jdbcType="VARCHAR" property="orderCode" />
+    <result column="DELIVERY_CODE" jdbcType="VARCHAR" property="deliveryCode" />
     <result column="NUM" jdbcType="INTEGER" property="num" />
     <result column="PRICE" jdbcType="REAL" property="price" />
     <result column="ADDR" jdbcType="VARCHAR" property="addr" />
@@ -80,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, PRODUCT_ID, USER_ID, ORDER_CODE, NUM, PRICE, ADDR, POST_CODE, RECEIVE_NAME, PHONE, 
-    COMMENT, CREATE_TIME, UPDATE_TIME, PAY_TIME, DELIVERY_TIME, CONFIRM_TIME, COMMENT_TIME, 
-    STATUS
+    ID, PRODUCT_ID, USER_ID, ORDER_CODE, DELIVERY_CODE, NUM, PRICE, ADDR, POST_CODE, 
+    RECEIVE_NAME, PHONE, COMMENT, CREATE_TIME, UPDATE_TIME, PAY_TIME, DELIVERY_TIME, 
+    CONFIRM_TIME, COMMENT_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.OrderExample" resultMap="BaseResultMap">
     select
@@ -117,17 +118,19 @@
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Order" useGeneratedKeys="true">
     insert into hw_order (PRODUCT_ID, USER_ID, ORDER_CODE, 
-      NUM, PRICE, ADDR, POST_CODE, 
-      RECEIVE_NAME, PHONE, COMMENT, 
-      CREATE_TIME, UPDATE_TIME, PAY_TIME, 
-      DELIVERY_TIME, CONFIRM_TIME, COMMENT_TIME, 
-      STATUS)
+      DELIVERY_CODE, NUM, PRICE, 
+      ADDR, POST_CODE, RECEIVE_NAME, 
+      PHONE, COMMENT, CREATE_TIME, 
+      UPDATE_TIME, PAY_TIME, DELIVERY_TIME, 
+      CONFIRM_TIME, COMMENT_TIME, STATUS
+      )
     values (#{productId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orderCode,jdbcType=VARCHAR}, 
-      #{num,jdbcType=INTEGER}, #{price,jdbcType=REAL}, #{addr,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, 
-      #{receiveName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
-      #{deliveryTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, #{commentTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR})
+      #{deliveryCode,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{price,jdbcType=REAL}, 
+      #{addr,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, #{receiveName,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{deliveryTime,jdbcType=TIMESTAMP}, 
+      #{confirmTime,jdbcType=TIMESTAMP}, #{commentTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Order" useGeneratedKeys="true">
     insert into hw_order
@@ -140,6 +143,9 @@
       </if>
       <if test="orderCode != null">
         ORDER_CODE,
+      </if>
+      <if test="deliveryCode != null">
+        DELIVERY_CODE,
       </if>
       <if test="num != null">
         NUM,
@@ -193,6 +199,9 @@
       </if>
       <if test="orderCode != null">
         #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryCode != null">
+        #{deliveryCode,jdbcType=VARCHAR},
       </if>
       <if test="num != null">
         #{num,jdbcType=INTEGER},
@@ -259,6 +268,9 @@
       <if test="record.orderCode != null">
         ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.deliveryCode != null">
+        DELIVERY_CODE = #{record.deliveryCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.num != null">
         NUM = #{record.num,jdbcType=INTEGER},
       </if>
@@ -312,6 +324,7 @@
       PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
       USER_ID = #{record.userId,jdbcType=BIGINT},
       ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
+      DELIVERY_CODE = #{record.deliveryCode,jdbcType=VARCHAR},
       NUM = #{record.num,jdbcType=INTEGER},
       PRICE = #{record.price,jdbcType=REAL},
       ADDR = #{record.addr,jdbcType=VARCHAR},
@@ -341,6 +354,9 @@
       </if>
       <if test="orderCode != null">
         ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryCode != null">
+        DELIVERY_CODE = #{deliveryCode,jdbcType=VARCHAR},
       </if>
       <if test="num != null">
         NUM = #{num,jdbcType=INTEGER},
@@ -392,6 +408,7 @@
     set PRODUCT_ID = #{productId,jdbcType=BIGINT},
       USER_ID = #{userId,jdbcType=BIGINT},
       ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      DELIVERY_CODE = #{deliveryCode,jdbcType=VARCHAR},
       NUM = #{num,jdbcType=INTEGER},
       PRICE = #{price,jdbcType=REAL},
       ADDR = #{addr,jdbcType=VARCHAR},

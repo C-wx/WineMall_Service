@@ -1,6 +1,7 @@
 package winemall.bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class Product {
     private Long id;
@@ -24,6 +25,10 @@ public class Product {
     private Date updateTime;
 
     private String status;
+
+    /**-------非表字段-------*/
+    private List<Image> imageList;
+    /**---------------------*/
 
     public Long getId() {
         return id;
@@ -111,5 +116,13 @@ public class Product {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public List<Image> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
     }
 }

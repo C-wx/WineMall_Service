@@ -355,6 +355,76 @@ public class OrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andDeliveryCodeIsNull() {
+            addCriterion("DELIVERY_CODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeIsNotNull() {
+            addCriterion("DELIVERY_CODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeEqualTo(String value) {
+            addCriterion("DELIVERY_CODE =", value, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeNotEqualTo(String value) {
+            addCriterion("DELIVERY_CODE <>", value, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeGreaterThan(String value) {
+            addCriterion("DELIVERY_CODE >", value, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("DELIVERY_CODE >=", value, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeLessThan(String value) {
+            addCriterion("DELIVERY_CODE <", value, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeLessThanOrEqualTo(String value) {
+            addCriterion("DELIVERY_CODE <=", value, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeLike(String value) {
+            addCriterion("DELIVERY_CODE like", value, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeNotLike(String value) {
+            addCriterion("DELIVERY_CODE not like", value, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeIn(List<String> values) {
+            addCriterion("DELIVERY_CODE in", values, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeNotIn(List<String> values) {
+            addCriterion("DELIVERY_CODE not in", values, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeBetween(String value1, String value2) {
+            addCriterion("DELIVERY_CODE between", value1, value2, "deliveryCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryCodeNotBetween(String value1, String value2) {
+            addCriterion("DELIVERY_CODE not between", value1, value2, "deliveryCode");
+            return (Criteria) this;
+        }
+
         public Criteria andNumIsNull() {
             addCriterion("NUM is null");
             return (Criteria) this;
