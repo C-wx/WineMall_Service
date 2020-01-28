@@ -24,6 +24,9 @@ public class ProductService {
         if (StringUtils.isNotBlank(product.getStatus())) {
             criteria.andStatusEqualTo(product.getStatus());
         }
+        if (StringUtils.isNotBlank(product.getName())) {
+            criteria.andNameLike("%"+product.getName()+"%");
+        }
         return productMapper.selectByExample(productExample);
     }
 

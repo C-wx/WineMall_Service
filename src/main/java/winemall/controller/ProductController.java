@@ -3,6 +3,7 @@ package winemall.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,10 +58,14 @@ public class ProductController {
     public Object productPage(@RequestParam(value = "current", defaultValue = "1") Integer pn,
                               @RequestParam(value = "size", defaultValue = "10") Integer size,
                               @RequestParam(value = "sort", defaultValue = "id") String sort,
-                              @RequestParam(value = "order", defaultValue = "desc") String order) {
+                              @RequestParam(value = "order", defaultValue = "desc") String order,
+                              String name) {
         PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  size：页大小
         Product product = new Product();
         product.setStatus("E");
+        if (StringUtils.isNotBlank(name)) {
+            product.setName(name);
+        }
         List<Product> productList = productService.queryList(product);
         PageInfo pageInfo = new PageInfo(productList, 10);
         return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
@@ -76,12 +81,16 @@ public class ProductController {
     @ResponseBody
     @GetMapping("/productRecyclePage")
     public Object productRecyclePage(@RequestParam(value = "current", defaultValue = "1") Integer pn,
-                              @RequestParam(value = "size", defaultValue = "10") Integer size,
-                              @RequestParam(value = "sort", defaultValue = "id") String sort,
-                              @RequestParam(value = "order", defaultValue = "desc") String order) {
+                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                     @RequestParam(value = "sort", defaultValue = "id") String sort,
+                                     @RequestParam(value = "order", defaultValue = "desc") String order,
+                                     String name) {
         PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  size：页大小
         Product product = new Product();
         product.setStatus("D");
+        if (StringUtils.isNotBlank(name)) {
+            product.setName(name);
+        }
         List<Product> productList = productService.queryList(product);
         PageInfo pageInfo = new PageInfo(productList, 10);
         return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());

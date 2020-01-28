@@ -28,6 +28,7 @@ public class Product {
 
     /**-------非表字段-------*/
     private List<Image> imageList;
+    private List<Comment> commentList;
     /**---------------------*/
 
     public Long getId() {
@@ -124,5 +125,13 @@ public class Product {
 
     public void setImageList(List<Image> imageList) {
         this.imageList = imageList;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 }

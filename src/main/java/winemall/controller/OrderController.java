@@ -2,6 +2,7 @@ package winemall.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,9 +48,13 @@ public class OrderController {
     public Object orderPage(@RequestParam(value = "current", defaultValue = "1") Integer pn,
                             @RequestParam(value = "size", defaultValue = "10") Integer size,
                             @RequestParam(value = "sort", defaultValue = "id") String sort,
-                            @RequestParam(value = "order", defaultValue = "desc") String order) {
+                            @RequestParam(value = "order", defaultValue = "desc") String order,
+                            String orderCode) {
         PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  size：页大小
         Order o = new Order();
+        if (StringUtils.isNotBlank(orderCode)) {
+            o.setOrderCode(orderCode);
+        }
         List<Order> orderList = orderService.queryList(o);
         orderList.stream().forEach(ol -> {
             Product product = productService.queryDetail(ol.getProductId());

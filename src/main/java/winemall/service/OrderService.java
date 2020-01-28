@@ -1,5 +1,6 @@
 package winemall.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import winemall.bean.Order;
@@ -19,6 +20,10 @@ public class OrderService {
 
     public List<Order> queryList(Order o) {
         OrderExample orderExample = new OrderExample();
+        OrderExample.Criteria criteria = orderExample.createCriteria();
+        if (StringUtils.isNotBlank(o.getOrderCode())) {
+            criteria.andOrderCodeLike("%"+o.getOrderCode()+"%");
+        }
         return orderMapper.selectByExample(orderExample);
     }
 

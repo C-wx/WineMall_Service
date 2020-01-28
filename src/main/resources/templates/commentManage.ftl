@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" type="text/css" href="${base}/css/common.css"/>
 
-    <script src="${base}/js/productManage.js"></script>
+    <script src="${base}/js/commentManage.js"></script>
 </head>
 <script>
     $(function () {
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="menu-title">商品中心</div>
-        <div class="menu-item menu-item-active">
+        <div class="menu-item">
             <a href="/toProductManage"><i class="fa fa-sitemap"></i>&nbsp;&nbsp;商品管理</a>
         </div>
         <div class="menu-item">
@@ -46,7 +46,7 @@
             <a href="/toOrderManage"><i class="fa fa-newspaper-o"></i>&nbsp;&nbsp;订单管理</a>
         </div>
         <div class="menu-title">评论中心</div>
-        <div class="menu-item">
+        <div class="menu-item menu-item-active">
             <a href="/toCommentManage"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;评论管理</a>
         </div>
         <div class="menu-title">售后中心</div>
@@ -67,31 +67,10 @@
             <div class="layui-row layui-form">
                 <div class="layui-card" style="width: 1400px;">
                     <div class="layui-card-header">
-                        <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">商品管理</strong>
-                        <button class="layui-btn layui-btn-sm" style="margin-left: 1150px" type="button" onclick="doAdd()">添加商品</button>
+                        <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">评论管理</strong>
                     </div>
                     <div class="layui-card-body" style="padding-top: 25px;">
-                        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
-                            <div id="search_area">
-                                <label>商品名称：</label>
-                                <div class="layui-inline">
-                                    <input class="layui-input" id="name" autocomplete="off">
-                                </div>
-                                <span style="margin-left: 50px">
-                                    <button class="layui-btn layuiadmin-btn-forum-list" data-type="keyLike">
-                                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                                    </button>
-                                    <button class="layui-btn layui-btn-primary" data-type="reload">
-                                        <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                        <table id="productTable" lay-filter="productTable"></table>
-                        <script type="text/html" id="isActive">
-                            <input type="checkbox" name="isActive" value="{{d.id}}" title="是" lay-filter="isActive" {{
-                                   d.isActive>0 ? 'checked' : '' }}>
-                        </script>
+                        <table id="commentTable" lay-filter="commentTable"></table>
                     </div>
                 </div>
             </div>

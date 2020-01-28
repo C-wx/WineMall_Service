@@ -137,6 +137,39 @@ layui.use(['form', 'table'], function () {
         }
     });
 
+    /**
+     * 监听搜索事件
+     */
+    $('button[data-type]').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+    var active = {
+        keyLike: function () {                          //关键词模糊搜索
+            const orderCode = $('#orderCode');
+            //执行重载
+            table.reload('orderTable', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    orderCode: orderCode.val()
+                }
+            });
+        },
+        reload: function () {                           //重置加载页面
+            $('#orderCode').val("");
+            table.reload('orderTable', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    orderCode: $('#orderCode').val()
+                }
+            });
+        }
+    };
+
     /*
      * 监听"是否参加活动"开关
      */

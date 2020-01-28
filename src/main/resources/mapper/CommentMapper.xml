@@ -3,7 +3,9 @@
 <mapper namespace="winemall.mapper.CommentMapper">
   <resultMap id="BaseResultMap" type="winemall.bean.Comment">
     <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="PRODUCT_ID" jdbcType="BIGINT" property="productId" />
+    <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+    <result column="PARENT_ID" jdbcType="BIGINT" property="parentId" />
+    <result column="PARENT_TYPE" jdbcType="VARCHAR" property="parentType" />
     <result column="USER_ID" jdbcType="BIGINT" property="userId" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
     <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
@@ -70,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, PRODUCT_ID, USER_ID, CONTENT, LIKE_COUNT, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, ORDER_ID, PARENT_ID, PARENT_TYPE, USER_ID, CONTENT, LIKE_COUNT, CREATE_TIME, 
+    UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.CommentExample" resultMap="BaseResultMap">
     select
@@ -104,18 +107,26 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Comment" useGeneratedKeys="true">
-    insert into hw_comment (PRODUCT_ID, USER_ID, CONTENT, 
-      LIKE_COUNT, CREATE_TIME, UPDATE_TIME, 
-      STATUS)
-    values (#{productId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
-      #{likeCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR})
+    insert into hw_comment (ORDER_ID, PARENT_ID, PARENT_TYPE, 
+      USER_ID, CONTENT, LIKE_COUNT, 
+      CREATE_TIME, UPDATE_TIME, STATUS
+      )
+    values (#{orderId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{parentType,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Comment" useGeneratedKeys="true">
     insert into hw_comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="productId != null">
-        PRODUCT_ID,
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+      <if test="parentType != null">
+        PARENT_TYPE,
       </if>
       <if test="userId != null">
         USER_ID,
@@ -137,8 +148,14 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="productId != null">
-        #{productId,jdbcType=BIGINT},
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="parentType != null">
+        #{parentType,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=BIGINT},
@@ -172,8 +189,14 @@
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.productId != null">
-        PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
+      <if test="record.orderId != null">
+        ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.parentId != null">
+        PARENT_ID = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.parentType != null">
+        PARENT_TYPE = #{record.parentType,jdbcType=VARCHAR},
       </if>
       <if test="record.userId != null">
         USER_ID = #{record.userId,jdbcType=BIGINT},
@@ -201,7 +224,9 @@
   <update id="updateByExample" parameterType="map">
     update hw_comment
     set ID = #{record.id,jdbcType=BIGINT},
-      PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
+      ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      PARENT_ID = #{record.parentId,jdbcType=BIGINT},
+      PARENT_TYPE = #{record.parentType,jdbcType=VARCHAR},
       USER_ID = #{record.userId,jdbcType=BIGINT},
       CONTENT = #{record.content,jdbcType=VARCHAR},
       LIKE_COUNT = #{record.likeCount,jdbcType=INTEGER},
@@ -215,8 +240,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="winemall.bean.Comment">
     update hw_comment
     <set>
-      <if test="productId != null">
-        PRODUCT_ID = #{productId,jdbcType=BIGINT},
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="parentType != null">
+        PARENT_TYPE = #{parentType,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         USER_ID = #{userId,jdbcType=BIGINT},
@@ -241,7 +272,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="winemall.bean.Comment">
     update hw_comment
-    set PRODUCT_ID = #{productId,jdbcType=BIGINT},
+    set ORDER_ID = #{orderId,jdbcType=BIGINT},
+      PARENT_ID = #{parentId,jdbcType=BIGINT},
+      PARENT_TYPE = #{parentType,jdbcType=VARCHAR},
       USER_ID = #{userId,jdbcType=BIGINT},
       CONTENT = #{content,jdbcType=VARCHAR},
       LIKE_COUNT = #{likeCount,jdbcType=INTEGER},

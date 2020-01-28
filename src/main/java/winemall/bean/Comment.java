@@ -5,7 +5,11 @@ import java.util.Date;
 public class Comment {
     private Long id;
 
-    private Long productId;
+    private Long orderId;
+
+    private Long parentId;
+
+    private String parentType;
 
     private Long userId;
 
@@ -19,6 +23,12 @@ public class Comment {
 
     private String status;
 
+    /**------非表字段------*/
+    private Product product;
+    private Order order;
+    private String userName;
+    /**-------------------*/
+
     public Long getId() {
         return id;
     }
@@ -27,12 +37,28 @@ public class Comment {
         this.id = id;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentType() {
+        return parentType;
+    }
+
+    public void setParentType(String parentType) {
+        this.parentType = parentType == null ? null : parentType.trim();
     }
 
     public Long getUserId() {
@@ -81,5 +107,29 @@ public class Comment {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
