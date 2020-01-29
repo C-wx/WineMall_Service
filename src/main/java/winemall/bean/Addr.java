@@ -13,6 +13,8 @@ public class Addr {
 
     private String addr;
 
+    private String isdefault;
+
     private Date createTime;
 
     private Date updateTime;
@@ -57,6 +59,14 @@ public class Addr {
 
     public void setAddr(String addr) {
         this.addr = addr == null ? null : addr.trim();
+    }
+
+    public String getIsdefault() {
+        return isdefault;
+    }
+
+    public void setIsdefault(String isdefault) {
+        this.isdefault = isdefault == null ? null : isdefault.trim();
     }
 
     public Date getCreateTime() {

@@ -7,6 +7,7 @@
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
     <result column="ADDR" jdbcType="VARCHAR" property="addr" />
+    <result column="isDefault" jdbcType="VARCHAR" property="isdefault" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, USER_ID, NAME, PHONE, ADDR, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, USER_ID, NAME, PHONE, ADDR, isDefault, CREATE_TIME, UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.AddrExample" resultMap="BaseResultMap">
     select
@@ -105,11 +106,11 @@
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Addr" useGeneratedKeys="true">
     insert into hw_addr (USER_ID, NAME, PHONE, 
-      ADDR, CREATE_TIME, UPDATE_TIME, 
-      STATUS)
+      ADDR, isDefault, CREATE_TIME, 
+      UPDATE_TIME, STATUS)
     values (#{userId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{addr,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR})
+      #{addr,jdbcType=VARCHAR}, #{isdefault,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Addr" useGeneratedKeys="true">
     insert into hw_addr
@@ -125,6 +126,9 @@
       </if>
       <if test="addr != null">
         ADDR,
+      </if>
+      <if test="isdefault != null">
+        isDefault,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -148,6 +152,9 @@
       </if>
       <if test="addr != null">
         #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="isdefault != null">
+        #{isdefault,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -184,6 +191,9 @@
       <if test="record.addr != null">
         ADDR = #{record.addr,jdbcType=VARCHAR},
       </if>
+      <if test="record.isdefault != null">
+        isDefault = #{record.isdefault,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -205,6 +215,7 @@
       NAME = #{record.name,jdbcType=VARCHAR},
       PHONE = #{record.phone,jdbcType=VARCHAR},
       ADDR = #{record.addr,jdbcType=VARCHAR},
+      isDefault = #{record.isdefault,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -227,6 +238,9 @@
       <if test="addr != null">
         ADDR = #{addr,jdbcType=VARCHAR},
       </if>
+      <if test="isdefault != null">
+        isDefault = #{isdefault,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -245,6 +259,7 @@
       NAME = #{name,jdbcType=VARCHAR},
       PHONE = #{phone,jdbcType=VARCHAR},
       ADDR = #{addr,jdbcType=VARCHAR},
+      isDefault = #{isdefault,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}

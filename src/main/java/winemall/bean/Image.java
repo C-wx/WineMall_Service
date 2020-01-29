@@ -2,14 +2,12 @@ package winemall.bean;
 
 import java.util.Date;
 
-public class User {
+public class Image {
     private Long id;
 
-    private String openId;
+    private Long productId;
 
-    private String name;
-
-    private String phone;
+    private String url;
 
     private Date createTime;
 
@@ -25,28 +23,20 @@ public class User {
         this.id = id;
     }
 
-    public String getOpenId() {
-        return openId;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId == null ? null : openId.trim();
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public String getName() {
-        return name;
+    public String getUrl() {
+        return url;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
     }
 
     public Date getCreateTime() {

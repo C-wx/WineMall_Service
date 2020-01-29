@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="winemall.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="winemall.bean.User">
+<mapper namespace="winemall.mapper.ImageMapper">
+  <resultMap id="BaseResultMap" type="winemall.bean.Image">
     <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="PRODUCT_ID" jdbcType="BIGINT" property="productId" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -69,16 +68,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, OPEN_ID, NAME, PHONE, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, PRODUCT_ID, URL, CREATE_TIME, UPDATE_TIME, STATUS
   </sql>
-  <select id="selectByExample" parameterType="winemall.bean.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="winemall.bean.ImageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from hw_user
+    from hw_image
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,38 +88,33 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from hw_user
+    from hw_image
     where ID = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from hw_user
+    delete from hw_image
     where ID = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="winemall.bean.UserExample">
-    delete from hw_user
+  <delete id="deleteByExample" parameterType="winemall.bean.ImageExample">
+    delete from hw_image
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.User" useGeneratedKeys="true">
-    insert into hw_user (OPEN_ID, NAME, PHONE, 
-      CREATE_TIME, UPDATE_TIME, STATUS
-      )
-    values (#{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
-      )
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Image" useGeneratedKeys="true">
+    insert into hw_image (PRODUCT_ID, URL, CREATE_TIME, 
+      UPDATE_TIME, STATUS)
+    values (#{productId,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.User" useGeneratedKeys="true">
-    insert into hw_user
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Image" useGeneratedKeys="true">
+    insert into hw_image
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="openId != null">
-        OPEN_ID,
+      <if test="productId != null">
+        PRODUCT_ID,
       </if>
-      <if test="name != null">
-        NAME,
-      </if>
-      <if test="phone != null">
-        PHONE,
+      <if test="url != null">
+        URL,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -133,14 +127,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="openId != null">
-        #{openId,jdbcType=VARCHAR},
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -153,26 +144,23 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="winemall.bean.UserExample" resultType="java.lang.Long">
-    select count(*) from hw_user
+  <select id="countByExample" parameterType="winemall.bean.ImageExample" resultType="java.lang.Long">
+    select count(*) from hw_image
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update hw_user
+    update hw_image
     <set>
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.openId != null">
-        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
+      <if test="record.productId != null">
+        PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null">
-        NAME = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.phone != null">
-        PHONE = #{record.phone,jdbcType=VARCHAR},
+      <if test="record.url != null">
+        URL = #{record.url,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -189,11 +177,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update hw_user
+    update hw_image
     set ID = #{record.id,jdbcType=BIGINT},
-      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
-      NAME = #{record.name,jdbcType=VARCHAR},
-      PHONE = #{record.phone,jdbcType=VARCHAR},
+      PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
+      URL = #{record.url,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -201,17 +188,14 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="winemall.bean.User">
-    update hw_user
+  <update id="updateByPrimaryKeySelective" parameterType="winemall.bean.Image">
+    update hw_image
     <set>
-      <if test="openId != null">
-        OPEN_ID = #{openId,jdbcType=VARCHAR},
+      <if test="productId != null">
+        PRODUCT_ID = #{productId,jdbcType=BIGINT},
       </if>
-      <if test="name != null">
-        NAME = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        PHONE = #{phone,jdbcType=VARCHAR},
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -225,11 +209,10 @@
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="winemall.bean.User">
-    update hw_user
-    set OPEN_ID = #{openId,jdbcType=VARCHAR},
-      NAME = #{name,jdbcType=VARCHAR},
-      PHONE = #{phone,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="winemall.bean.Image">
+    update hw_image
+    set PRODUCT_ID = #{productId,jdbcType=BIGINT},
+      URL = #{url,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}
