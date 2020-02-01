@@ -5,7 +5,7 @@ import java.util.Date;
 public class Addr {
     private Long id;
 
-    private Long userId;
+    private String openId;
 
     private String name;
 
@@ -13,7 +13,11 @@ public class Addr {
 
     private String addr;
 
-    private String isdefault;
+    private String value;
+
+    private String isDefault;
+
+    private String postCode;
 
     private Date createTime;
 
@@ -29,12 +33,12 @@ public class Addr {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getOpenId() {
+        return openId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
     public String getName() {
@@ -61,12 +65,28 @@ public class Addr {
         this.addr = addr == null ? null : addr.trim();
     }
 
-    public String getIsdefault() {
-        return isdefault;
+    public String getValue() {
+        return value;
     }
 
-    public void setIsdefault(String isdefault) {
-        this.isdefault = isdefault == null ? null : isdefault.trim();
+    public void setValue(String value) {
+        this.value = value == null ? null : value.trim();
+    }
+
+    public String getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(String isDefault) {
+        this.isDefault = isDefault == null ? null : isDefault.trim();
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode == null ? null : postCode.trim();
     }
 
     public Date getCreateTime() {

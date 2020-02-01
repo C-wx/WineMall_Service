@@ -7,7 +7,7 @@ public class Order {
 
     private Long productId;
 
-    private Long userId;
+    private String openId;
 
     private String orderCode;
 
@@ -59,12 +59,12 @@ public class Order {
         this.productId = productId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getOpenId() {
+        return openId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
     public String getOrderCode() {

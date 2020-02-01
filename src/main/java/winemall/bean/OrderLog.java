@@ -9,7 +9,7 @@ public class OrderLog {
 
     private Long orderId;
 
-    private Long userId;
+    private String openId;
 
     private Integer num;
 
@@ -22,6 +22,10 @@ public class OrderLog {
     private Date updateTime;
 
     private String status;
+
+    private Product product;
+
+    private Boolean selected;
 
     public Long getId() {
         return id;
@@ -47,12 +51,12 @@ public class OrderLog {
         this.orderId = orderId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getOpenId() {
+        return openId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
     public Integer getNum() {
@@ -101,5 +105,21 @@ public class OrderLog {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
     }
 }

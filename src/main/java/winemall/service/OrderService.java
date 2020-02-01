@@ -22,7 +22,10 @@ public class OrderService {
         OrderExample orderExample = new OrderExample();
         OrderExample.Criteria criteria = orderExample.createCriteria();
         if (StringUtils.isNotBlank(o.getOrderCode())) {
-            criteria.andOrderCodeLike("%"+o.getOrderCode()+"%");
+            criteria.andOrderCodeLike("%" + o.getOrderCode() + "%");
+        }
+        if (StringUtils.isNotBlank(o.getStatus())) {
+            criteria.andStatusEqualTo(o.getStatus());
         }
         return orderMapper.selectByExample(orderExample);
     }
@@ -33,5 +36,9 @@ public class OrderService {
 
     public int doEdit(Order order) {
         return orderMapper.updateByPrimaryKeySelective(order);
+    }
+
+    public int doAdd(Order order) {
+        return orderMapper.insertSelective(order);
     }
 }

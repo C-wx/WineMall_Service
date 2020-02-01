@@ -3,11 +3,13 @@
 <mapper namespace="winemall.mapper.AddrMapper">
   <resultMap id="BaseResultMap" type="winemall.bean.Addr">
     <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
     <result column="ADDR" jdbcType="VARCHAR" property="addr" />
-    <result column="isDefault" jdbcType="VARCHAR" property="isdefault" />
+    <result column="VALUE" jdbcType="VARCHAR" property="value" />
+    <result column="IS_DEFAULT" jdbcType="VARCHAR" property="isDefault" />
+    <result column="POST_CODE" jdbcType="VARCHAR" property="postCode" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -71,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, USER_ID, NAME, PHONE, ADDR, isDefault, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, OPEN_ID, NAME, PHONE, ADDR, VALUE, IS_DEFAULT, POST_CODE, CREATE_TIME, UPDATE_TIME, 
+    STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.AddrExample" resultMap="BaseResultMap">
     select
@@ -105,18 +108,20 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Addr" useGeneratedKeys="true">
-    insert into hw_addr (USER_ID, NAME, PHONE, 
-      ADDR, isDefault, CREATE_TIME, 
-      UPDATE_TIME, STATUS)
-    values (#{userId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{addr,jdbcType=VARCHAR}, #{isdefault,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+    insert into hw_addr (OPEN_ID, NAME, PHONE, 
+      ADDR, VALUE, IS_DEFAULT, 
+      POST_CODE, CREATE_TIME, UPDATE_TIME, 
+      STATUS)
+    values (#{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{addr,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{isDefault,jdbcType=VARCHAR}, 
+      #{postCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Addr" useGeneratedKeys="true">
     insert into hw_addr
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        USER_ID,
+      <if test="openId != null">
+        OPEN_ID,
       </if>
       <if test="name != null">
         NAME,
@@ -127,8 +132,14 @@
       <if test="addr != null">
         ADDR,
       </if>
-      <if test="isdefault != null">
-        isDefault,
+      <if test="value != null">
+        VALUE,
+      </if>
+      <if test="isDefault != null">
+        IS_DEFAULT,
+      </if>
+      <if test="postCode != null">
+        POST_CODE,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -141,8 +152,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -153,8 +164,14 @@
       <if test="addr != null">
         #{addr,jdbcType=VARCHAR},
       </if>
-      <if test="isdefault != null">
-        #{isdefault,jdbcType=VARCHAR},
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -179,8 +196,8 @@
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.userId != null">
-        USER_ID = #{record.userId,jdbcType=BIGINT},
+      <if test="record.openId != null">
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
         NAME = #{record.name,jdbcType=VARCHAR},
@@ -191,8 +208,14 @@
       <if test="record.addr != null">
         ADDR = #{record.addr,jdbcType=VARCHAR},
       </if>
-      <if test="record.isdefault != null">
-        isDefault = #{record.isdefault,jdbcType=VARCHAR},
+      <if test="record.value != null">
+        VALUE = #{record.value,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDefault != null">
+        IS_DEFAULT = #{record.isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postCode != null">
+        POST_CODE = #{record.postCode,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -211,11 +234,13 @@
   <update id="updateByExample" parameterType="map">
     update hw_addr
     set ID = #{record.id,jdbcType=BIGINT},
-      USER_ID = #{record.userId,jdbcType=BIGINT},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       NAME = #{record.name,jdbcType=VARCHAR},
       PHONE = #{record.phone,jdbcType=VARCHAR},
       ADDR = #{record.addr,jdbcType=VARCHAR},
-      isDefault = #{record.isdefault,jdbcType=VARCHAR},
+      VALUE = #{record.value,jdbcType=VARCHAR},
+      IS_DEFAULT = #{record.isDefault,jdbcType=VARCHAR},
+      POST_CODE = #{record.postCode,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -226,8 +251,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="winemall.bean.Addr">
     update hw_addr
     <set>
-      <if test="userId != null">
-        USER_ID = #{userId,jdbcType=BIGINT},
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         NAME = #{name,jdbcType=VARCHAR},
@@ -238,8 +263,14 @@
       <if test="addr != null">
         ADDR = #{addr,jdbcType=VARCHAR},
       </if>
-      <if test="isdefault != null">
-        isDefault = #{isdefault,jdbcType=VARCHAR},
+      <if test="value != null">
+        VALUE = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        POST_CODE = #{postCode,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -255,11 +286,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="winemall.bean.Addr">
     update hw_addr
-    set USER_ID = #{userId,jdbcType=BIGINT},
+    set OPEN_ID = #{openId,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
       PHONE = #{phone,jdbcType=VARCHAR},
       ADDR = #{addr,jdbcType=VARCHAR},
-      isDefault = #{isdefault,jdbcType=VARCHAR},
+      VALUE = #{value,jdbcType=VARCHAR},
+      IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+      POST_CODE = #{postCode,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}

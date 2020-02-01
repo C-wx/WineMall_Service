@@ -5,7 +5,7 @@
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="PRODUCT_ID" jdbcType="BIGINT" property="productId" />
     <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
-    <result column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
     <result column="NUM" jdbcType="INTEGER" property="num" />
     <result column="PRICE" jdbcType="REAL" property="price" />
     <result column="TYPE" jdbcType="VARCHAR" property="type" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, PRODUCT_ID, ORDER_ID, USER_ID, NUM, PRICE, TYPE, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, PRODUCT_ID, ORDER_ID, OPEN_ID, NUM, PRICE, TYPE, CREATE_TIME, UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.OrderLogExample" resultMap="BaseResultMap">
     select
@@ -106,10 +106,10 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.OrderLog" useGeneratedKeys="true">
-    insert into hw_order_log (PRODUCT_ID, ORDER_ID, USER_ID, 
+    insert into hw_order_log (PRODUCT_ID, ORDER_ID, OPEN_ID, 
       NUM, PRICE, TYPE, CREATE_TIME, 
       UPDATE_TIME, STATUS)
-    values (#{productId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+    values (#{productId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, 
       #{num,jdbcType=INTEGER}, #{price,jdbcType=REAL}, #{type,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
@@ -122,8 +122,8 @@
       <if test="orderId != null">
         ORDER_ID,
       </if>
-      <if test="userId != null">
-        USER_ID,
+      <if test="openId != null">
+        OPEN_ID,
       </if>
       <if test="num != null">
         NUM,
@@ -151,8 +151,8 @@
       <if test="orderId != null">
         #{orderId,jdbcType=BIGINT},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="num != null">
         #{num,jdbcType=INTEGER},
@@ -192,8 +192,8 @@
       <if test="record.orderId != null">
         ORDER_ID = #{record.orderId,jdbcType=BIGINT},
       </if>
-      <if test="record.userId != null">
-        USER_ID = #{record.userId,jdbcType=BIGINT},
+      <if test="record.openId != null">
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       </if>
       <if test="record.num != null">
         NUM = #{record.num,jdbcType=INTEGER},
@@ -223,7 +223,7 @@
     set ID = #{record.id,jdbcType=BIGINT},
       PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
       ORDER_ID = #{record.orderId,jdbcType=BIGINT},
-      USER_ID = #{record.userId,jdbcType=BIGINT},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       NUM = #{record.num,jdbcType=INTEGER},
       PRICE = #{record.price,jdbcType=REAL},
       TYPE = #{record.type,jdbcType=VARCHAR},
@@ -243,8 +243,8 @@
       <if test="orderId != null">
         ORDER_ID = #{orderId,jdbcType=BIGINT},
       </if>
-      <if test="userId != null">
-        USER_ID = #{userId,jdbcType=BIGINT},
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="num != null">
         NUM = #{num,jdbcType=INTEGER},
@@ -271,7 +271,7 @@
     update hw_order_log
     set PRODUCT_ID = #{productId,jdbcType=BIGINT},
       ORDER_ID = #{orderId,jdbcType=BIGINT},
-      USER_ID = #{userId,jdbcType=BIGINT},
+      OPEN_ID = #{openId,jdbcType=VARCHAR},
       NUM = #{num,jdbcType=INTEGER},
       PRICE = #{price,jdbcType=REAL},
       TYPE = #{type,jdbcType=VARCHAR},

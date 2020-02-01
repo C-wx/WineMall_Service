@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="winemall.bean.Order">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="PRODUCT_ID" jdbcType="BIGINT" property="productId" />
-    <result column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
     <result column="ORDER_CODE" jdbcType="VARCHAR" property="orderCode" />
     <result column="DELIVERY_CODE" jdbcType="VARCHAR" property="deliveryCode" />
     <result column="NUM" jdbcType="INTEGER" property="num" />
@@ -81,7 +81,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, PRODUCT_ID, USER_ID, ORDER_CODE, DELIVERY_CODE, NUM, PRICE, ADDR, POST_CODE, 
+    ID, PRODUCT_ID, OPEN_ID, ORDER_CODE, DELIVERY_CODE, NUM, PRICE, ADDR, POST_CODE, 
     RECEIVE_NAME, PHONE, COMMENT, CREATE_TIME, UPDATE_TIME, PAY_TIME, DELIVERY_TIME, 
     CONFIRM_TIME, COMMENT_TIME, STATUS
   </sql>
@@ -117,14 +117,14 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Order" useGeneratedKeys="true">
-    insert into hw_order (PRODUCT_ID, USER_ID, ORDER_CODE, 
+    insert into hw_order (PRODUCT_ID, OPEN_ID, ORDER_CODE, 
       DELIVERY_CODE, NUM, PRICE, 
       ADDR, POST_CODE, RECEIVE_NAME, 
       PHONE, COMMENT, CREATE_TIME, 
       UPDATE_TIME, PAY_TIME, DELIVERY_TIME, 
       CONFIRM_TIME, COMMENT_TIME, STATUS
       )
-    values (#{productId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orderCode,jdbcType=VARCHAR}, 
+    values (#{productId,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
       #{deliveryCode,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{price,jdbcType=REAL}, 
       #{addr,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, #{receiveName,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
@@ -138,8 +138,8 @@
       <if test="productId != null">
         PRODUCT_ID,
       </if>
-      <if test="userId != null">
-        USER_ID,
+      <if test="openId != null">
+        OPEN_ID,
       </if>
       <if test="orderCode != null">
         ORDER_CODE,
@@ -194,8 +194,8 @@
       <if test="productId != null">
         #{productId,jdbcType=BIGINT},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="orderCode != null">
         #{orderCode,jdbcType=VARCHAR},
@@ -262,8 +262,8 @@
       <if test="record.productId != null">
         PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
       </if>
-      <if test="record.userId != null">
-        USER_ID = #{record.userId,jdbcType=BIGINT},
+      <if test="record.openId != null">
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       </if>
       <if test="record.orderCode != null">
         ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
@@ -322,7 +322,7 @@
     update hw_order
     set ID = #{record.id,jdbcType=BIGINT},
       PRODUCT_ID = #{record.productId,jdbcType=BIGINT},
-      USER_ID = #{record.userId,jdbcType=BIGINT},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
       DELIVERY_CODE = #{record.deliveryCode,jdbcType=VARCHAR},
       NUM = #{record.num,jdbcType=INTEGER},
@@ -349,8 +349,8 @@
       <if test="productId != null">
         PRODUCT_ID = #{productId,jdbcType=BIGINT},
       </if>
-      <if test="userId != null">
-        USER_ID = #{userId,jdbcType=BIGINT},
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="orderCode != null">
         ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
@@ -406,7 +406,7 @@
   <update id="updateByPrimaryKey" parameterType="winemall.bean.Order">
     update hw_order
     set PRODUCT_ID = #{productId,jdbcType=BIGINT},
-      USER_ID = #{userId,jdbcType=BIGINT},
+      OPEN_ID = #{openId,jdbcType=VARCHAR},
       ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
       DELIVERY_CODE = #{deliveryCode,jdbcType=VARCHAR},
       NUM = #{num,jdbcType=INTEGER},
