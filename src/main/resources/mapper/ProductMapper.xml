@@ -6,6 +6,7 @@
     <result column="USER_ID" jdbcType="BIGINT" property="userId" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+    <result column="INTRODUCTION" jdbcType="VARCHAR" property="introduction" />
     <result column="PRICE" jdbcType="REAL" property="price" />
     <result column="SALED" jdbcType="INTEGER" property="saled" />
     <result column="STOCK" jdbcType="INTEGER" property="stock" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, USER_ID, NAME, SUMMARY, PRICE, SALED, STOCK, IS_ACTIVE, CREATE_TIME, UPDATE_TIME, 
-    STATUS
+    ID, USER_ID, NAME, SUMMARY, INTRODUCTION, PRICE, SALED, STOCK, IS_ACTIVE, CREATE_TIME, 
+    UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.ProductExample" resultMap="BaseResultMap">
     select
@@ -109,13 +110,13 @@
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Product" useGeneratedKeys="true">
     insert into hw_product (USER_ID, NAME, SUMMARY, 
-      PRICE, SALED, STOCK, IS_ACTIVE, 
-      CREATE_TIME, UPDATE_TIME, STATUS
-      )
+      INTRODUCTION, PRICE, SALED, 
+      STOCK, IS_ACTIVE, CREATE_TIME, 
+      UPDATE_TIME, STATUS)
     values (#{userId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
-      #{price,jdbcType=REAL}, #{saled,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{isActive,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
-      )
+      #{introduction,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{saled,jdbcType=INTEGER}, 
+      #{stock,jdbcType=INTEGER}, #{isActive,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Product" useGeneratedKeys="true">
     insert into hw_product
@@ -128,6 +129,9 @@
       </if>
       <if test="summary != null">
         SUMMARY,
+      </if>
+      <if test="introduction != null">
+        INTRODUCTION,
       </if>
       <if test="price != null">
         PRICE,
@@ -160,6 +164,9 @@
       </if>
       <if test="summary != null">
         #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=REAL},
@@ -205,6 +212,9 @@
       <if test="record.summary != null">
         SUMMARY = #{record.summary,jdbcType=VARCHAR},
       </if>
+      <if test="record.introduction != null">
+        INTRODUCTION = #{record.introduction,jdbcType=VARCHAR},
+      </if>
       <if test="record.price != null">
         PRICE = #{record.price,jdbcType=REAL},
       </if>
@@ -237,6 +247,7 @@
       USER_ID = #{record.userId,jdbcType=BIGINT},
       NAME = #{record.name,jdbcType=VARCHAR},
       SUMMARY = #{record.summary,jdbcType=VARCHAR},
+      INTRODUCTION = #{record.introduction,jdbcType=VARCHAR},
       PRICE = #{record.price,jdbcType=REAL},
       SALED = #{record.saled,jdbcType=INTEGER},
       STOCK = #{record.stock,jdbcType=INTEGER},
@@ -259,6 +270,9 @@
       </if>
       <if test="summary != null">
         SUMMARY = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        INTRODUCTION = #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         PRICE = #{price,jdbcType=REAL},
@@ -289,6 +303,7 @@
     set USER_ID = #{userId,jdbcType=BIGINT},
       NAME = #{name,jdbcType=VARCHAR},
       SUMMARY = #{summary,jdbcType=VARCHAR},
+      INTRODUCTION = #{introduction,jdbcType=VARCHAR},
       PRICE = #{price,jdbcType=REAL},
       SALED = #{saled,jdbcType=INTEGER},
       STOCK = #{stock,jdbcType=INTEGER},

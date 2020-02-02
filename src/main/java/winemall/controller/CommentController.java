@@ -86,6 +86,8 @@ public class CommentController {
         commenti.setUserId(merchant.getId());
         commenti.setContent(content);
         int res = commentService.doAdd(commenti);
+        comment.setStatus("Y");
+        commentService.doEdit(comment);
         return res > 0 ? Result.success() : Result.error();
     }
 }

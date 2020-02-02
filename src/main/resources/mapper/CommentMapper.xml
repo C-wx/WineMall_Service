@@ -7,6 +7,7 @@
     <result column="PARENT_ID" jdbcType="BIGINT" property="parentId" />
     <result column="PARENT_TYPE" jdbcType="VARCHAR" property="parentType" />
     <result column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
     <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, ORDER_ID, PARENT_ID, PARENT_TYPE, USER_ID, CONTENT, LIKE_COUNT, CREATE_TIME, 
+    ID, ORDER_ID, PARENT_ID, PARENT_TYPE, USER_ID, OPEN_ID, CONTENT, LIKE_COUNT, CREATE_TIME, 
     UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.CommentExample" resultMap="BaseResultMap">
@@ -108,13 +109,13 @@
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Comment" useGeneratedKeys="true">
     insert into hw_comment (ORDER_ID, PARENT_ID, PARENT_TYPE, 
-      USER_ID, CONTENT, LIKE_COUNT, 
-      CREATE_TIME, UPDATE_TIME, STATUS
-      )
+      USER_ID, OPEN_ID, CONTENT, 
+      LIKE_COUNT, CREATE_TIME, UPDATE_TIME, 
+      STATUS)
     values (#{orderId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{parentType,jdbcType=VARCHAR}, 
-      #{userId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
-      )
+      #{userId,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{likeCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Comment" useGeneratedKeys="true">
     insert into hw_comment
@@ -130,6 +131,9 @@
       </if>
       <if test="userId != null">
         USER_ID,
+      </if>
+      <if test="openId != null">
+        OPEN_ID,
       </if>
       <if test="content != null">
         CONTENT,
@@ -159,6 +163,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -201,6 +208,9 @@
       <if test="record.userId != null">
         USER_ID = #{record.userId,jdbcType=BIGINT},
       </if>
+      <if test="record.openId != null">
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
+      </if>
       <if test="record.content != null">
         CONTENT = #{record.content,jdbcType=VARCHAR},
       </if>
@@ -228,6 +238,7 @@
       PARENT_ID = #{record.parentId,jdbcType=BIGINT},
       PARENT_TYPE = #{record.parentType,jdbcType=VARCHAR},
       USER_ID = #{record.userId,jdbcType=BIGINT},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       CONTENT = #{record.content,jdbcType=VARCHAR},
       LIKE_COUNT = #{record.likeCount,jdbcType=INTEGER},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -251,6 +262,9 @@
       </if>
       <if test="userId != null">
         USER_ID = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         CONTENT = #{content,jdbcType=VARCHAR},
@@ -276,6 +290,7 @@
       PARENT_ID = #{parentId,jdbcType=BIGINT},
       PARENT_TYPE = #{parentType,jdbcType=VARCHAR},
       USER_ID = #{userId,jdbcType=BIGINT},
+      OPEN_ID = #{openId,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=VARCHAR},
       LIKE_COUNT = #{likeCount,jdbcType=INTEGER},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},

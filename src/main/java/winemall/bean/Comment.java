@@ -13,6 +13,8 @@ public class Comment {
 
     private Long userId;
 
+    private String openId;
+
     private String content;
 
     private Integer likeCount;
@@ -67,6 +69,14 @@ public class Comment {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
     public String getContent() {

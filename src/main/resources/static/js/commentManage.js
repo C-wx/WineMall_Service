@@ -59,7 +59,7 @@ layui.use(['form', 'table'], function () {
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
-                    let html = '<a class="layui-btn layui-bg-cyan layui-btn-sm" lay-event="reply">回复</a>';
+                    let html = d.status == 'E'?'<a class="layui-btn layui-bg-cyan layui-btn-sm" lay-event="reply">回复</a>':'<a class="layui-btn layui-btn-disabled layui-btn-sm">已回复</a>';
                     return html;
                 }
             }

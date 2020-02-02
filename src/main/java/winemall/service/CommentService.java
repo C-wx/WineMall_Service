@@ -37,4 +37,8 @@ public class CommentService {
     public int doAdd(Comment comment) {
         return commentMapper.insertSelective(comment);
     }
+
+    public int doEdit(Comment comment) {
+        return commentMapper.updateByPrimaryKeySelective(comment);
+    }
 }

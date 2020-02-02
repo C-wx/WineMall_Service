@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @Explain: 前台商品/订单控制器
+ * @Explain: 前台商品/订单/评论控制器
  */
 @Slf4j
 @Controller
@@ -42,16 +42,22 @@ public class ProductCenterController {
     @Autowired
     private OrderLogService orderLogService;
 
+    @Autowired
+    private PropertyService propertyService;
+
     @ResponseBody
     @GetMapping("/getProduct")
     public Object getProduct(@RequestParam(value = "current", defaultValue = "1") Integer pn,
                              @RequestParam(value = "size", defaultValue = "10") Integer size,
-                             String name) {
+                             String name,String isActive) {
         PageHelper.startPage(pn, size);     //pn:页码  size：页大小
         Product product = new Product();
         product.setStatus("E");
         if (StringUtils.isNotBlank(name)) {
             product.setName(name);
+        }
+        if (StringUtils.isNotBlank(isActive)) {
+            product.setIsActive(isActive);
         }
         List<Product> productList = productService.queryList(product);
         PageInfo pageInfo = new PageInfo(productList, 10);
@@ -71,6 +77,8 @@ public class ProductCenterController {
             cs.setOrder(order);
             cs.setUserName(order.getReceiveName());
         });
+        List<Property> propertyList = propertyService.queryList(product.getId());
+        product.setPropertyList(propertyList);
         product.setCommentList(comments);
         return Result.success(product);
     }
@@ -153,12 +161,32 @@ public class ProductCenterController {
     @RequestMapping("/getOrderList")
     public Object getOrderList(String status) {
         Order order = new Order();
-        order.setStatus(status);
+        if (!"ALL".equals(status)) {
+            order.setStatus(status);
+        }
         List<Order> orderList = orderService.queryList(order);
-        orderList.stream().forEach(ol->{
+        orderList.stream().forEach(ol -> {
             Product product = productService.queryDetail(ol.getProductId());
             ol.setProduct(product);
         });
         return Result.success(orderList);
+    }
+
+    @ResponseBody
+    @RequestMapping("/getOrderDetail")
+    public Object getOrderDetail(Long id) {
+        Order order = orderService.queryDetail(id);
+        return Result.success(order);
+    }
+
+    @ResponseBody
+    @RequestMapping("/doComment")
+    public Object doComment(Comment comment) {
+        int res = commentService.doAdd(comment);
+        Order order = new Order();
+        order.setId(comment.getOrderId());
+        order.setStatus("YR");
+        orderService.doEdit(order);
+        return res>0?Result.success():Result.error();
     }
 }

@@ -16,6 +16,7 @@ import winemall.dto.Result;
 import winemall.service.OrderService;
 import winemall.service.ProductService;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -85,8 +86,16 @@ public class OrderController {
     @ResponseBody
     @RequestMapping("/doOpeOrder")
     public Object doOpeOrder(Order order) {
-        int res = orderService.doEdit(order);
-        return res > 0 ? Result.success() : Result.error();
+        if (StringUtils.isNotBlank(order.getOrderIds())) {
+            String[] ids = order.getOrderIds().substring(0,order.getOrderIds().length() - 1).split(",");
+            Arrays.stream(ids).forEach(id->{
+                order.setId(Long.valueOf(id));
+                orderService.doEdit(order);
+            });
+        }else {
+            orderService.doEdit(order);
+        }
+        return Result.success();
     }
 
     @ResponseBody

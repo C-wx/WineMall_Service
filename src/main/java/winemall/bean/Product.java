@@ -12,6 +12,8 @@ public class Product {
 
     private String summary;
 
+    private String introduction;
+
     private Float price;
 
     private Integer saled;
@@ -29,6 +31,7 @@ public class Product {
     /**-------非表字段-------*/
     private List<Image> imageList;
     private List<Comment> commentList;
+    private List<Property> propertyList;
     /**---------------------*/
 
     public Long getId() {
@@ -61,6 +64,14 @@ public class Product {
 
     public void setSummary(String summary) {
         this.summary = summary == null ? null : summary.trim();
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction == null ? null : introduction.trim();
     }
 
     public Float getPrice() {
@@ -133,5 +144,13 @@ public class Product {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    public List<Property> getPropertyList() {
+        return propertyList;
+    }
+
+    public void setPropertyList(List<Property> propertyList) {
+        this.propertyList = propertyList;
     }
 }

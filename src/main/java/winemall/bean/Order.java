@@ -43,6 +43,8 @@ public class Order {
 
     private Product product;
 
+    private String orderIds;
+
     public Long getId() {
         return id;
     }
@@ -201,5 +203,13 @@ public class Order {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public String getOrderIds() {
+        return orderIds;
+    }
+
+    public void setOrderIds(String orderIds) {
+        this.orderIds = orderIds;
     }
 }

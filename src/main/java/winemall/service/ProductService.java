@@ -27,6 +27,10 @@ public class ProductService {
         if (StringUtils.isNotBlank(product.getName())) {
             criteria.andNameLike("%"+product.getName()+"%");
         }
+        if (StringUtils.isNotBlank(product.getIsActive())) {
+            criteria.andIsActiveEqualTo(product.getIsActive());
+        }
+        productExample.setOrderByClause("ID DESC");
         return productMapper.selectByExample(productExample);
     }
 

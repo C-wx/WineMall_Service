@@ -80,6 +80,68 @@
                                 <input type="number" name="stock" autocomplete="off" class="layui-input" value=<#if product??>"${product.stock!}"</#if>>
                             </div>
                         </div>
+                        <#if ope != 'Edit'>
+                            <div class="layui-form-item row">
+                                <div class="layui-col-md2">
+                                    <label>品种：</label>
+                                </div>
+                                <div class="layui-col-md2" style="width: 150px">
+                                    <input type="text" name="variety" autocomplete="off" class="layui-input" value=<#if product??>"${product.stock!}"</#if>>
+                                </div>
+                            </div>
+                            <div class="layui-form-item row">
+                                <div class="layui-col-md2">
+                                    <label>类型：</label>
+                                </div>
+                                <div class="layui-col-md2" style="width: 150px">
+                                    <input type="text" name="type" autocomplete="off" class="layui-input" value=<#if product??>"${product.stock!}"</#if>>
+                                </div>
+                            </div>
+                            <div class="layui-form-item row">
+                                <div class="layui-col-md2">
+                                    <label>年份：</label>
+                                </div>
+                                <div class="layui-col-md2" style="width: 90px">
+                                    <input type="text" name="years" autocomplete="off" class="layui-input" value=<#if product??>"${product.stock!}"</#if>>
+                                </div>
+                            </div>
+                            <div class="layui-form-item row">
+                                <div class="layui-col-md2">
+                                    <label>产品规格：</label>
+                                </div>
+                                <div class="layui-col-md2" style="width: 90px">
+                                    <input type="text" name="capacity" autocomplete="off" class="layui-input" value=<#if product??>"${product.stock!}"</#if>>
+                                </div>
+                            </div>
+                            <div class="layui-form-item row">
+                                <div class="layui-col-md2">
+                                    <label>酒精度：</label>
+                                </div>
+                                <div class="layui-col-md2" style="width: 90px">
+                                    <input type="text" name="degree" autocomplete="off" class="layui-input" value=<#if product??>"${product.stock!}"</#if>>
+                                </div>
+                            </div>
+                        <#else>
+                            <#list propertyList as property>
+                                <div class="layui-form-item row">
+                                    <div class="layui-col-md2">
+                                        <label>${property.name}：</label>
+                                    </div>
+                                    <div class="layui-col-md2" style="width: 120px">
+                                        <input type="text" name="degree" autocomplete="off" class="layui-input" value="${property.value!}">
+                                    </div>
+                                </div>
+                            </#list>
+                        </#if>
+
+                        <div class="layui-form-item row">
+                            <div class="layui-col-md2">
+                                <label>商品介绍：</label>
+                            </div>
+                            <div class="layui-col-md8" style="width: 300px">
+                                <textarea name="introduction" rol="4" class="layui-textarea"><#if product??>${product.introduction!}</#if></textarea>
+                            </div>
+                        </div>
                         <div class="layui-form-item row">
                             <div class="layui-col-md2">
                                 <label>是否参加活动：</label>

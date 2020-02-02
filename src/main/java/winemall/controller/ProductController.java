@@ -16,9 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 import winemall.bean.Image;
 import winemall.bean.Merchant;
 import winemall.bean.Product;
+import winemall.bean.Property;
+import winemall.dto.PropertyDto;
 import winemall.dto.Result;
 import winemall.service.ImageService;
 import winemall.service.ProductService;
+import winemall.service.PropertyService;
 import winemall.utils.FileUpload;
 
 import javax.servlet.http.HttpSession;
@@ -35,6 +38,9 @@ public class ProductController {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private PropertyService propertyService;
 
     @RequestMapping("/toProductManage")
     public String toProductManage() {
@@ -98,7 +104,7 @@ public class ProductController {
 
     @ResponseBody
     @RequestMapping("/doOpeProduct")
-    public Object doOpeProduct(Product product, @RequestParam(value = "files", required = false) MultipartFile[] files, HttpSession session) {
+    public Object doOpeProduct(PropertyDto propertyDto, Product product, @RequestParam(value = "files", required = false) MultipartFile[] files, HttpSession session) {
         int res;
         if ("COMPLETE".equals(product.getStatus())) {
             res = productService.doDel(product);
@@ -128,6 +134,38 @@ public class ProductController {
             if (!CollectionUtils.isEmpty(list_image)) {
                 addImage(product, list_image);
             }
+            // 为商品属性赋值
+            Property property = new Property();
+            if (StringUtils.isNotBlank(propertyDto.getVariety())) {
+                property.setName("品种");
+                property.setValue(propertyDto.getVariety());
+                property.setProductId(product.getId());
+                propertyService.doAdd(property);
+            }
+            if (StringUtils.isNotBlank(propertyDto.getType())) {
+                property.setName("类型");
+                property.setValue(propertyDto.getType());
+                property.setProductId(product.getId());
+                propertyService.doAdd(property);
+            }
+            if (StringUtils.isNotBlank(propertyDto.getYears())) {
+                property.setName("年份");
+                property.setValue(propertyDto.getYears());
+                property.setProductId(product.getId());
+                propertyService.doAdd(property);
+            }
+            if (StringUtils.isNotBlank(propertyDto.getCapacity())) {
+                property.setName("产品规格");
+                property.setValue(propertyDto.getCapacity());
+                property.setProductId(product.getId());
+                propertyService.doAdd(property);
+            }
+            if (StringUtils.isNotBlank(propertyDto.getDegree())) {
+                property.setName("酒精度数");
+                property.setValue(propertyDto.getDegree());
+                property.setProductId(product.getId());
+                propertyService.doAdd(property);
+            }
         }
         return res > 0 ? Result.success() : Result.error("操作失败");
     }
@@ -140,7 +178,12 @@ public class ProductController {
             if (!CollectionUtils.isEmpty(images)) {
                 product.setImageList(images);
             }
+            List<Property> propertyList = propertyService.queryList(product.getId());
+            model.addAttribute("ope","Edit");
             model.addAttribute("product", product);
+            model.addAttribute("propertyList",propertyList);
+        }else {
+            model.addAttribute("ope","Add");
         }
         return "productOpe";
     }
