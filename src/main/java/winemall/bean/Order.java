@@ -7,6 +7,8 @@ public class Order {
 
     private Long productId;
 
+    private Long serviceId;
+
     private String openId;
 
     private String orderCode;
@@ -59,6 +61,14 @@ public class Order {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public Long getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Long serviceId) {
+        this.serviceId = serviceId;
     }
 
     public String getOpenId() {

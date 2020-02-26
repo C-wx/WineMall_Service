@@ -30,4 +30,8 @@ public class ImageService {
     public int doEdit(Image image) {
         return imageMapper.updateByPrimaryKeySelective(image);
     }
+
+    public Image queryDetail(Long id) {
+        return imageMapper.selectByPrimaryKey(id);
+    }
 }

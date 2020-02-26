@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" type="text/css" href="${base}/css/common.css"/>
 
-    <script src="${base}/js/commentManage.js"></script>
+    <script src="${base}/js/serviceManage.js"></script>
 </head>
 <script>
     $(function () {
@@ -46,11 +46,11 @@
             <a href="/toOrderManage"><i class="fa fa-newspaper-o"></i>&nbsp;&nbsp;订单管理</a>
         </div>
         <div class="menu-title">评论中心</div>
-        <div class="menu-item menu-item-active">
+        <div class="menu-item">
             <a href="/toCommentManage"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;评论管理</a>
         </div>
         <div class="menu-title">售后中心</div>
-        <div class="menu-item">
+        <div class="menu-item menu-item-active">
             <a href="/toServiceManage"><i class="fa fa-warning"></i>&nbsp;&nbsp;售后管理</a>
         </div>
     </div>
@@ -67,10 +67,10 @@
             <div class="layui-row layui-form">
                 <div class="layui-card" style="width: 1400px;">
                     <div class="layui-card-header">
-                        <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">评论管理</strong>
+                        <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">售后管理</strong>
                     </div>
                     <div class="layui-card-body" style="padding-top: 25px;">
-                        <table id="commentTable" lay-filter="commentTable"></table>
+                        <table id="serviceTable" lay-filter="serviceTable"></table>
                     </div>
                 </div>
             </div>

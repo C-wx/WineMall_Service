@@ -87,7 +87,7 @@ public class OrderController {
     @RequestMapping("/doOpeOrder")
     public Object doOpeOrder(Order order) {
         if (StringUtils.isNotBlank(order.getOrderIds())) {
-            String[] ids = order.getOrderIds().substring(0,order.getOrderIds().length() - 1).split(",");
+            String[] ids = order.getOrderIds().substring(1,order.getOrderIds().length() - 1).split(",");
             Arrays.stream(ids).forEach(id->{
                 order.setId(Long.valueOf(id));
                 orderService.doEdit(order);

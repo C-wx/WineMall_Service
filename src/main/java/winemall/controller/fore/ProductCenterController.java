@@ -45,11 +45,17 @@ public class ProductCenterController {
     @Autowired
     private PropertyService propertyService;
 
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private SerService serService;
+
     @ResponseBody
     @GetMapping("/getProduct")
     public Object getProduct(@RequestParam(value = "current", defaultValue = "1") Integer pn,
                              @RequestParam(value = "size", defaultValue = "10") Integer size,
-                             String name,String isActive) {
+                             String name, String isActive) {
         PageHelper.startPage(pn, size);     //pn:页码  size：页大小
         Product product = new Product();
         product.setStatus("E");
@@ -60,6 +66,10 @@ public class ProductCenterController {
             product.setIsActive(isActive);
         }
         List<Product> productList = productService.queryList(product);
+        for (Product pi : productList) {
+            List<Image> images = imageService.queryList(pi.getId());
+            pi.setImageList(images);
+        }
         PageInfo pageInfo = new PageInfo(productList, 10);
         return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
     }
@@ -77,6 +87,8 @@ public class ProductCenterController {
             cs.setOrder(order);
             cs.setUserName(order.getReceiveName());
         });
+        List<Image> images = imageService.queryList(id);
+        product.setImageList(images);
         List<Property> propertyList = propertyService.queryList(product.getId());
         product.setPropertyList(propertyList);
         product.setCommentList(comments);
@@ -110,6 +122,8 @@ public class ProductCenterController {
         List<OrderLog> orderLogs = orderLogService.queryList(openId);
         orderLogs.stream().forEach(orderLog -> {
             Product product = productService.queryDetail(orderLog.getProductId());
+            List<Image> images = imageService.queryList(product.getId());
+            product.setImageList(images);
             orderLog.setProduct(product);
             orderLog.setSelected(false);
         });
@@ -133,26 +147,42 @@ public class ProductCenterController {
 
     @ResponseBody
     @RequestMapping("/saveOrder")
-    public Object saveOrder(String orderList, String openId, String addrId, String content) {
+    public Object saveOrder(String orderList,
+                            String openId,
+                            String addrId,
+                            Integer num,
+                            Float price,
+                            String content,
+                            Boolean byCart) {
         List<Long> orderids = new ArrayList<>();
         String[] orderLogIds = orderList.substring(0, orderList.length() - 1).split(",");
         Addr addr = addrService.queryDetail(Long.valueOf(addrId));
         Arrays.stream(orderLogIds).forEach(ol -> {
-            OrderLog orderLog = orderLogService.queryDetail(Long.valueOf(ol));
             Order order = new Order();
             order.setStatus("WP");
-            order.setProductId(orderLog.getProductId());
             order.setOpenId(openId);
-            order.setOrderCode(RandomUtil.getUUID());
-            order.setNum(orderLog.getNum());
-            order.setPrice(orderLog.getPrice());
             order.setAddr(addr.getAddr());
             order.setPostCode(addr.getPostCode());
             order.setReceiveName(addr.getName());
             order.setPhone(addr.getPhone());
             order.setComment(content);
-            orderService.doAdd(order);
-            orderids.add(order.getId());
+            order.setOrderCode(RandomUtil.getUUID());
+            if (byCart) {
+                OrderLog orderLog = orderLogService.queryDetail(Long.valueOf(ol));
+                order.setProductId(orderLog.getProductId());
+                order.setNum(orderLog.getNum());
+                order.setPrice(orderLog.getPrice());
+                orderService.doAdd(order);
+                orderLog.setOrderId(order.getId());
+                orderLogService.doEdit(orderLog);
+                orderids.add(order.getId());
+            } else {
+                order.setProductId(Long.valueOf(ol));
+                order.setNum(num);
+                order.setPrice(price);
+                orderService.doAdd(order);
+                orderids.add(order.getId());
+            }
         });
         return Result.success(orderids);
     }
@@ -167,6 +197,8 @@ public class ProductCenterController {
         List<Order> orderList = orderService.queryList(order);
         orderList.stream().forEach(ol -> {
             Product product = productService.queryDetail(ol.getProductId());
+            List<Image> images = imageService.queryList(product.getId());
+            product.setImageList(images);
             ol.setProduct(product);
         });
         return Result.success(orderList);
@@ -187,6 +219,18 @@ public class ProductCenterController {
         order.setId(comment.getOrderId());
         order.setStatus("YR");
         orderService.doEdit(order);
-        return res>0?Result.success():Result.error();
+        return res > 0 ? Result.success() : Result.error();
+    }
+
+    @ResponseBody
+    @RequestMapping("/doService")
+    public Object doService(Ser ser) {
+        serService.doAdd(ser);
+        Order order = new Order();
+        order.setId(ser.getOrderId());
+        order.setStatus("DW");
+        order.setServiceId(ser.getId());
+        orderService.doEdit(order);
+        return Result.success();
     }
 }

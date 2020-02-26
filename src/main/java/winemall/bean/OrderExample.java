@@ -225,6 +225,66 @@ public class OrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andServiceIdIsNull() {
+            addCriterion("SERVICE_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdIsNotNull() {
+            addCriterion("SERVICE_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdEqualTo(Long value) {
+            addCriterion("SERVICE_ID =", value, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdNotEqualTo(Long value) {
+            addCriterion("SERVICE_ID <>", value, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdGreaterThan(Long value) {
+            addCriterion("SERVICE_ID >", value, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("SERVICE_ID >=", value, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdLessThan(Long value) {
+            addCriterion("SERVICE_ID <", value, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdLessThanOrEqualTo(Long value) {
+            addCriterion("SERVICE_ID <=", value, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdIn(List<Long> values) {
+            addCriterion("SERVICE_ID in", values, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdNotIn(List<Long> values) {
+            addCriterion("SERVICE_ID not in", values, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdBetween(Long value1, Long value2) {
+            addCriterion("SERVICE_ID between", value1, value2, "serviceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceIdNotBetween(Long value1, Long value2) {
+            addCriterion("SERVICE_ID not between", value1, value2, "serviceId");
+            return (Criteria) this;
+        }
+
         public Criteria andOpenIdIsNull() {
             addCriterion("OPEN_ID is null");
             return (Criteria) this;

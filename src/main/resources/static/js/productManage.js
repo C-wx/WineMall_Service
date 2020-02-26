@@ -122,7 +122,7 @@ layui.use(['form', 'table'], function () {
             layer.open({
                 type: 2,
                 title: '',
-                area: ['650px', '600px'],
+                area: ['600px', '960px'],
                 offset: 'auto',
                 content: '/toOpeProduct?id='+data.id,
                 shade:0.4
@@ -195,7 +195,7 @@ layui.use(['form', 'table'], function () {
         layer.open({
             type: 2,
             title: '',
-            area: ['650px', '600px'],
+            area: ['600px', '960px'],
             offset: 'auto',
             content: '/toOpeProduct?',
             shade:0.4

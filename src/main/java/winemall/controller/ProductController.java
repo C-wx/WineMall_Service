@@ -22,10 +22,11 @@ import winemall.dto.Result;
 import winemall.service.ImageService;
 import winemall.service.ProductService;
 import winemall.service.PropertyService;
-import winemall.utils.FileUpload;
+import winemall.utils.QiniuCloudUtil;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Explain: 产品控制器
@@ -106,14 +107,11 @@ public class ProductController {
     @RequestMapping("/doOpeProduct")
     public Object doOpeProduct(PropertyDto propertyDto, Product product, @RequestParam(value = "files", required = false) MultipartFile[] files, HttpSession session) {
         int res;
-        if ("COMPLETE".equals(product.getStatus())) {
+        if ("COMPLETE".equals(product.getStatus())) {       //删除商品操作
             res = productService.doDel(product);
-        } else if (product.getId() != null) {
+        } else if (product.getId() != null) {               //编辑商品操作
             if (!ArrayUtils.isEmpty(files)) {
-                List<String> list_image = FileUpload.upload_image(files, session);
-                if (!CollectionUtils.isEmpty(list_image)) {
-                    addImage(product, list_image);
-                }
+                doUploadImage(product, files);
             }
             if ("on".equals(product.getIsActive())) {
                 product.setIsActive("1");
@@ -121,7 +119,7 @@ public class ProductController {
                 product.setIsActive("0");
             }
             res = productService.doEdit(product);
-        } else {
+        } else {                                            //添加商品操作
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_USER");
             product.setUserId(merchant.getId());
             if ("on".equals(product.getIsActive())) {
@@ -130,10 +128,7 @@ public class ProductController {
                 product.setIsActive("0");
             }
             res = productService.doAdd(product);
-            List<String> list_image = FileUpload.upload_image(files, session);
-            if (!CollectionUtils.isEmpty(list_image)) {
-                addImage(product, list_image);
-            }
+            doUploadImage(product, files);
             // 为商品属性赋值
             Property property = new Property();
             if (StringUtils.isNotBlank(propertyDto.getVariety())) {
@@ -170,6 +165,24 @@ public class ProductController {
         return res > 0 ? Result.success() : Result.error("操作失败");
     }
 
+    private void doUploadImage(Product product, @RequestParam(value = "files", required = false) MultipartFile[] files) {
+        for (MultipartFile myFile : files) {
+            if (StringUtils.isNotBlank(myFile.getOriginalFilename())) {
+                try {
+                    byte[] bytes = myFile.getBytes();
+                    String imageName = UUID.randomUUID().toString();
+                    String url = QiniuCloudUtil.put64image(bytes, imageName);
+                    Image image = new Image();
+                    image.setProductId(product.getId());
+                    image.setUrl(url);
+                    imageService.doAdd(image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     @RequestMapping("/toOpeProduct")
     public String toOpeProduct(Long id, Model model) {
         if (id != null) {
@@ -179,11 +192,11 @@ public class ProductController {
                 product.setImageList(images);
             }
             List<Property> propertyList = propertyService.queryList(product.getId());
-            model.addAttribute("ope","Edit");
+            model.addAttribute("ope", "Edit");
             model.addAttribute("product", product);
-            model.addAttribute("propertyList",propertyList);
-        }else {
-            model.addAttribute("ope","Add");
+            model.addAttribute("propertyList", propertyList);
+        } else {
+            model.addAttribute("ope", "Add");
         }
         return "productOpe";
     }
@@ -191,19 +204,11 @@ public class ProductController {
     @ResponseBody
     @RequestMapping("/doDelImage")
     public Object doDelImage(Long id) {
-        Image image = new Image();
-        image.setId(id);
+        Image image = imageService.queryDetail(id);
+        String target = image.getUrl().split("/")[3];
+        QiniuCloudUtil.delete(target);
         image.setStatus("D");
         int res = imageService.doEdit(image);
         return res > 0 ? Result.success() : Result.error();
-    }
-
-    private void addImage(Product product, List<String> list_image) {
-        list_image.stream().forEach(li -> {
-            Image image = new Image();
-            image.setProductId(product.getId());
-            image.setUrl(li);
-            imageService.doAdd(image);
-        });
     }
 }

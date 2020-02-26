@@ -4,7 +4,6 @@
 <head>
     <script src="${base}/js/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="${base}/css/login.css">
     <!--layui-->
     <script src="${base}/plugins/layui/layui.all.js"></script>
     <link rel="stylesheet" href="${base}/plugins/layui/css/layui.css">
@@ -15,7 +14,7 @@
 </head>
 <body style="background-color: #f4f5f6">
 <div class="container">
-    <div class="layui-fluid layui-anim layui-anim-scale" style="padding: 20px;">
+    <div class="layui-fluid layui-anim layui-anim-scale" style="padding: 10px;">
         <div class="layui-row">
             <div class="layui-card">
                 <div class="layui-card-body" style="padding-top: 25px;">
@@ -167,7 +166,7 @@
     }
 </style>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
+    layui.use(['form'], function () {
         var form = layui.form ;
         form.render();
     });

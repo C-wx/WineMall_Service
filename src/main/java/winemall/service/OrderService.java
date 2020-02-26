@@ -25,7 +25,7 @@ public class OrderService {
             criteria.andOrderCodeLike("%" + o.getOrderCode() + "%");
         }
         if (StringUtils.isNotBlank(o.getStatus())) {
-            criteria.andStatusEqualTo(o.getStatus());
+            criteria.andStatusLike(o.getStatus() + "%");
         }
         return orderMapper.selectByExample(orderExample);
     }

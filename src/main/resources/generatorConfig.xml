@@ -138,5 +138,14 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 -->
+<!--
+        <table tableName="hw_service" domainObjectName="Ser" enableCountByExample="true"
+               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+            <property name="my.isgen.usekeys" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+-->
     </context>
 </generatorConfiguration>
