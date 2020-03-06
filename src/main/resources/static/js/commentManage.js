@@ -33,7 +33,7 @@ layui.use(['form', 'table'], function () {
                 , align: 'center'
                 , width: 334
                 , templet: (d) => {
-                    return d.order.orderCode;
+                    return d.orderCode;
                 }
             }
             , {
@@ -59,7 +59,7 @@ layui.use(['form', 'table'], function () {
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
-                    let html = d.status == 'E'?'<a class="layui-btn layui-bg-cyan layui-btn-sm" lay-event="reply">回复</a>':'<a class="layui-btn layui-btn-disabled layui-btn-sm">已回复</a>';
+                    let html = '<a class="layui-btn layui-bg-red layui-btn-sm" lay-event="delete">删除</a>';
                     return html;
                 }
             }
@@ -81,15 +81,17 @@ layui.use(['form', 'table'], function () {
                 content: '<div style="padding: 20px;">' + data.content + '</div>',
                 shade: 0.4
             })
-        } else if (obj.event == 'reply') {
-            layer.open({
-                type: 2,
-                title: '',
-                area: ['450px', '260px'],
-                offset: 'auto',
-                content: '/toReply?id=' + data.id,
-                shade: 0.4
-            })
+        } else if (obj.event == 'delete') {
+            var str = "<div>确认删除该评论吗？</div>";
+            layer.confirm(str, {btn: ['确定', '取消'], title: "提示"}, function () {
+                $.ajax({
+                    url: "/doOpeComment",
+                    data: {
+                        id: data.id,
+                        status: "D"
+                    }
+                })
+            });
         }
     });
 });

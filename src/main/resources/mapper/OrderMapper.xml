@@ -440,4 +440,11 @@
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+  <select id="getOrderCodes" resultType="java.lang.String">
+    SELECT ORDER_CODE FROM `hw_order` where STATUS LIKE #{orderStatus} GROUP BY ORDER_CODE ORDER BY id DESC
+  </select>
+  <select id="getALlOrderByOrderCode" resultType="winemall.bean.Order">
+    select ORDER_CODE,STATUS,PAY_TIME FROM hw_order WHERE ORDER_CODE LIKE #{orderCode}  GROUP BY ORDER_CODE
+  </select>
+
 </mapper>

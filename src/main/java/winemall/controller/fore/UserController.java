@@ -19,6 +19,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * @Explain 若用户为第一次登陆，等往数据库插入一条用户记录
+     * @param  user 用户传输实体
+     * @Return
+     */
     @ResponseBody
     @RequestMapping("/doAddUser")
     public Object doAddUser(User user) {

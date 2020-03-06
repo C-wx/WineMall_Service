@@ -5,7 +5,7 @@ import java.util.Date;
 public class Ser {
     private Long id;
 
-    private Long orderId;
+    private String orderCode;
 
     private String reason;
 
@@ -31,12 +31,12 @@ public class Ser {
         this.id = id;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public String getOrderCode() {
+        return orderCode;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode == null ? null : orderCode.trim();
     }
 
     public String getReason() {

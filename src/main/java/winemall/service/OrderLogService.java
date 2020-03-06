@@ -43,6 +43,7 @@ public class OrderLogService {
                 .andOrderIdIsNull()                 //未生成订单ID 说明还未购买
                 .andTypeEqualTo("BC")               //表示是加购形式
                 .andStatusEqualTo("E");             //表示生效状态
+        orderLogExample.setOrderByClause("id DESC");
         return orderLogMapper.selectByExample(orderLogExample);
     }
 

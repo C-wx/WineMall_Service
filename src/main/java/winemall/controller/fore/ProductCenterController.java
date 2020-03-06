@@ -1,5 +1,7 @@
 package winemall.controller.fore;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import winemall.bean.*;
 import winemall.dto.Result;
 import winemall.service.*;
-import winemall.utils.RandomUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @Explain: 前台商品/订单/评论控制器
@@ -51,6 +51,14 @@ public class ProductCenterController {
     @Autowired
     private SerService serService;
 
+    /**
+     * @param pn       页码
+     * @param size     页的大小
+     * @param name     商品名称
+     * @param isActive 是否参加活动
+     * @Explain 获取商品列表
+     * @Return
+     */
     @ResponseBody
     @GetMapping("/getProduct")
     public Object getProduct(@RequestParam(value = "current", defaultValue = "1") Integer pn,
@@ -74,27 +82,36 @@ public class ProductCenterController {
         return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
     }
 
+    /**
+     * @param id 商品ID
+     * @Explain 获取商品详情
+     */
     @ResponseBody
     @RequestMapping("/getProductDetail")
     public Object getProductDetail(Long id) {
         Product product = productService.queryDetail(id);
         Comment comment = new Comment();
         comment.setParentId(product.getId());
-        comment.setParentType("PRODUCT");
-        List<Comment> comments = commentService.queryList(comment);
+        List<Comment> comments = commentService.queryList(comment);     //获取该商品下的评论
         comments.stream().forEach(cs -> {
-            Order order = orderService.queryDetail(cs.getOrderId());
-            cs.setOrder(order);
-            cs.setUserName(order.getReceiveName());
+            Order order = orderService.getCorrespond(cs.getParentId(), cs.getOrderCode());
+            if (order != null) {        //获取评论所对应的的订单信息
+                cs.setOrder(order);
+                cs.setUserName(order.getReceiveName());
+            }
         });
-        List<Image> images = imageService.queryList(id);
+        List<Image> images = imageService.queryList(id);        //获取商品图片
         product.setImageList(images);
-        List<Property> propertyList = propertyService.queryList(product.getId());
+        List<Property> propertyList = propertyService.queryList(product.getId());       //获取商品属性
         product.setPropertyList(propertyList);
         product.setCommentList(comments);
         return Result.success(product);
     }
 
+    /**
+     * @param orderLog 购物车传输实体
+     * @Explain 添加购物车
+     */
     @ResponseBody
     @RequestMapping("/doAddCart")
     public Object doAddCart(OrderLog orderLog) {
@@ -116,6 +133,10 @@ public class ProductCenterController {
         return res > 0 ? Result.success() : Result.error();
     }
 
+    /**
+     * @param openId 用户标识ID
+     * @Explain 获取购物车列表
+     */
     @ResponseBody
     @RequestMapping("/getCarList")
     public Object getCarList(String openId) {
@@ -130,6 +151,10 @@ public class ProductCenterController {
         return Result.success(orderLogs);
     }
 
+    /**
+     * @param orderLog 购物车传输实体
+     * @Explain 生成购物车
+     */
     @ResponseBody
     @RequestMapping("/doOpeOrderLog")
     public Object doOpeOrderLOg(OrderLog orderLog) {
@@ -145,65 +170,59 @@ public class ProductCenterController {
         return res > 0 ? Result.success() : Result.error();
     }
 
+    /**
+     * @param orderList 订单集合
+     * @param addrId    地址ID
+     * @param remark    备注
+     * @Explain 生成订单
+     * @Return
+     */
     @ResponseBody
     @RequestMapping("/saveOrder")
-    public Object saveOrder(String orderList,
-                            String openId,
-                            String addrId,
-                            Integer num,
-                            Float price,
-                            String content,
-                            Boolean byCart) {
-        List<Long> orderids = new ArrayList<>();
-        String[] orderLogIds = orderList.substring(0, orderList.length() - 1).split(",");
-        Addr addr = addrService.queryDetail(Long.valueOf(addrId));
-        Arrays.stream(orderLogIds).forEach(ol -> {
-            Order order = new Order();
-            order.setStatus("WP");
-            order.setOpenId(openId);
-            order.setAddr(addr.getAddr());
-            order.setPostCode(addr.getPostCode());
-            order.setReceiveName(addr.getName());
-            order.setPhone(addr.getPhone());
-            order.setComment(content);
-            order.setOrderCode(RandomUtil.getUUID());
-            if (byCart) {
-                OrderLog orderLog = orderLogService.queryDetail(Long.valueOf(ol));
-                order.setProductId(orderLog.getProductId());
-                order.setNum(orderLog.getNum());
-                order.setPrice(orderLog.getPrice());
-                orderService.doAdd(order);
-                orderLog.setOrderId(order.getId());
+    public Object saveOrder(String orderList, Long addrId, String remark) {
+        JSONArray orderArray = JSONArray.parseArray(orderList);
+        Addr addr = addrService.queryDetail(addrId);
+        String orderCode = UUID.randomUUID().toString().substring(0, 8);        //随机生成订单编码
+        for (Object o : orderArray) {                                           //拆单操作
+            Order oi = JSON.toJavaObject((JSON) o, Order.class);
+            oi.setOrderCode(orderCode);
+            oi.setAddr(addr.getAddr());
+            oi.setPostCode(addr.getPostCode());
+            oi.setReceiveName(addr.getName());
+            oi.setPhone(addr.getPhone());
+            oi.setComment(remark);
+            orderService.doAdd(oi);                                //生成订单
+            if (StringUtils.isNotBlank(oi.getCartId())) {       //说明是从购物车中下单
+                OrderLog orderLog = new OrderLog();
+                orderLog.setId(Long.valueOf(oi.getCartId()));
+                orderLog.setOrderId(oi.getId());
                 orderLogService.doEdit(orderLog);
-                orderids.add(order.getId());
-            } else {
-                order.setProductId(Long.valueOf(ol));
-                order.setNum(num);
-                order.setPrice(price);
-                orderService.doAdd(order);
-                orderids.add(order.getId());
             }
-        });
-        return Result.success(orderids);
+        }
+        return Result.success(orderCode);               //将商品订单编码返回
     }
 
+    /**
+     * @param status 订单状态
+     * @Explain 根据订单状态获取对应订单
+     */
     @ResponseBody
     @RequestMapping("/getOrderList")
     public Object getOrderList(String status) {
-        Order order = new Order();
-        if (!"ALL".equals(status)) {
-            order.setStatus(status);
+        if ("ALL".equals(status)) {
+            status = "%";
+        } else {
+            status = status + "%";
         }
-        List<Order> orderList = orderService.queryList(order);
-        orderList.stream().forEach(ol -> {
-            Product product = productService.queryDetail(ol.getProductId());
-            List<Image> images = imageService.queryList(product.getId());
-            product.setImageList(images);
-            ol.setProduct(product);
-        });
+        List<List<Order>> orderList = orderService.getOrderList(status);
         return Result.success(orderList);
     }
 
+    /**
+     * @param id 订单ID
+     * @Explain 获取订单详情
+     * @Return
+     */
     @ResponseBody
     @RequestMapping("/getOrderDetail")
     public Object getOrderDetail(Long id) {
@@ -211,26 +230,38 @@ public class ProductCenterController {
         return Result.success(order);
     }
 
+    /**
+     * @param comment 评论传输实体
+     * @Explain 发布评论
+     */
     @ResponseBody
     @RequestMapping("/doComment")
     public Object doComment(Comment comment) {
-        int res = commentService.doAdd(comment);
+        List<Order> orderList = orderService.getOrders(comment.getOrderCode());     //获取订单编号对应的订单
+        for (Order order : orderList) {
+            comment.setParentId(order.getProductId());      //拆分订单  如果一个订单中由两个商品，那么这条评论应该在两个商品中都要插入
+            commentService.doAdd(comment);
+        }
         Order order = new Order();
-        order.setId(comment.getOrderId());
-        order.setStatus("YR");
-        orderService.doEdit(order);
-        return res > 0 ? Result.success() : Result.error();
+        order.setOrderCode(comment.getOrderCode());
+        order.setStatus("YR");          //改变订单状态       “YR”：已评论状态
+        orderService.doOpeOrder(order);
+        return Result.success();
     }
 
+    /**
+     * @param ser 售后服务传输实体
+     * @Explain 发起售后
+     */
     @ResponseBody
     @RequestMapping("/doService")
     public Object doService(Ser ser) {
         serService.doAdd(ser);
         Order order = new Order();
-        order.setId(ser.getOrderId());
+        order.setOrderCode(ser.getOrderCode());
         order.setStatus("DW");
         order.setServiceId(ser.getId());
-        orderService.doEdit(order);
+        orderService.doOpeOrder(order);
         return Result.success();
     }
 }

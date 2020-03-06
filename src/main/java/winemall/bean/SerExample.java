@@ -165,63 +165,73 @@ public class SerExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNull() {
-            addCriterion("ORDER_ID is null");
+        public Criteria andOrderCodeIsNull() {
+            addCriterion("ORDER_CODE is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNotNull() {
-            addCriterion("ORDER_ID is not null");
+        public Criteria andOrderCodeIsNotNull() {
+            addCriterion("ORDER_CODE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdEqualTo(Long value) {
-            addCriterion("ORDER_ID =", value, "orderId");
+        public Criteria andOrderCodeEqualTo(String value) {
+            addCriterion("ORDER_CODE =", value, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotEqualTo(Long value) {
-            addCriterion("ORDER_ID <>", value, "orderId");
+        public Criteria andOrderCodeNotEqualTo(String value) {
+            addCriterion("ORDER_CODE <>", value, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThan(Long value) {
-            addCriterion("ORDER_ID >", value, "orderId");
+        public Criteria andOrderCodeGreaterThan(String value) {
+            addCriterion("ORDER_CODE >", value, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("ORDER_ID >=", value, "orderId");
+        public Criteria andOrderCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("ORDER_CODE >=", value, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThan(Long value) {
-            addCriterion("ORDER_ID <", value, "orderId");
+        public Criteria andOrderCodeLessThan(String value) {
+            addCriterion("ORDER_CODE <", value, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThanOrEqualTo(Long value) {
-            addCriterion("ORDER_ID <=", value, "orderId");
+        public Criteria andOrderCodeLessThanOrEqualTo(String value) {
+            addCriterion("ORDER_CODE <=", value, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIn(List<Long> values) {
-            addCriterion("ORDER_ID in", values, "orderId");
+        public Criteria andOrderCodeLike(String value) {
+            addCriterion("ORDER_CODE like", value, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotIn(List<Long> values) {
-            addCriterion("ORDER_ID not in", values, "orderId");
+        public Criteria andOrderCodeNotLike(String value) {
+            addCriterion("ORDER_CODE not like", value, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdBetween(Long value1, Long value2) {
-            addCriterion("ORDER_ID between", value1, value2, "orderId");
+        public Criteria andOrderCodeIn(List<String> values) {
+            addCriterion("ORDER_CODE in", values, "orderCode");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotBetween(Long value1, Long value2) {
-            addCriterion("ORDER_ID not between", value1, value2, "orderId");
+        public Criteria andOrderCodeNotIn(List<String> values) {
+            addCriterion("ORDER_CODE not in", values, "orderCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderCodeBetween(String value1, String value2) {
+            addCriterion("ORDER_CODE between", value1, value2, "orderCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderCodeNotBetween(String value1, String value2) {
+            addCriterion("ORDER_CODE not between", value1, value2, "orderCode");
             return (Criteria) this;
         }
 

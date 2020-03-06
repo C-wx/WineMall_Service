@@ -18,39 +18,20 @@ layui.use(['form', 'table'], function () {
             , limitName: 'size' //每页数据量的参数名，默认：limit
         }
         , cols: [[
+            {title: '序号', align: 'center', templet: '#xuhao'},
             {
-                field: 'productName'
-                , title: '商品名称'
-                , align: 'center'
-                , Width: 182
-                , templet:(d)=>{
-                    return d.product.name;
-                }
-            }
-            , {
                 field: 'orderCode'
                 , title: '订单编码'
                 , align: 'center'
                 , width: 334
             }
             , {
-                field: 'num'
-                , title: '购买数量'
-                , align: 'center'
-                , Width: 146
-            }
-            , {
-                field: 'price'
-                , title: '订单总价'
-                , align: 'center'
-                , Width: 136
-            }
-            , {
                 field: 'status'
                 , title: '订单状态'
                 , align: 'center'
                 , Width: 136
-                , templet: (d)=>{
+                , templet: (d) => {
+                    console.log(d)
                     let status;
                     switch (d.status) {
                         case "WP":
@@ -65,8 +46,21 @@ layui.use(['form', 'table'], function () {
                         case "WR":
                             status = "待评价";
                             break;
+                        case "YR":
+                            status = "已评价";
+                            break;
                         case "DD":
                             status = "取消订单";
+                        case "DW":
+                            status = "退款处理中";
+                        case "DWTK":
+                            status = "等待退款";
+                        case "DYTK":
+                            status = "已退款";
+                        case "DS":
+                            status = "同意退货";
+                        case "DF":
+                            status = "拒绝退货";
                             break;
                     }
                     return status;
@@ -79,7 +73,11 @@ layui.use(['form', 'table'], function () {
                 , Width: 148
                 , sort: true
                 , templet: (d) => {
-                    return Tool.formatDate(d.payTime, 'yyyy/MM/dd');
+                    if (d.payTime != null) {
+                        return Tool.formatDate(d.payTime, 'yyyy/MM/dd');
+                    } else {
+                        return "";
+                    }
                 }
             }
             , {
@@ -88,12 +86,12 @@ layui.use(['form', 'table'], function () {
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
-                    let deliveryHtml;
+                    let deliveryHtml = '';
                     let detailHtml = '<a class="layui-btn layui-bg-cyan layui-btn-sm" lay-event="detail">详情</a>';
                     if (d.status == 'WD') {
-                        deliveryHtml = '<a class="layui-btn layui-bg-orange layui-btn-sm" lay-event="delivery">发货</a>';
-                    }else if(d.status != 'DD' & d.status != 'WP'){
-                        deliveryHtml = '<a class="layui-btn layui-btn-disabled layui-btn-sm">已发货</a>';
+                        deliveryHtml += '<a class="layui-btn layui-bg-orange layui-btn-sm" lay-event="delivery">发货</a>';
+                    } else if (d.status != 'DD' & d.status != 'WP') {
+                        deliveryHtml += '<a class="layui-btn layui-btn-disabled layui-btn-sm">已发货</a>';
                     }
                     return detailHtml + deliveryHtml;
                 }
@@ -111,10 +109,10 @@ layui.use(['form', 'table'], function () {
             layer.open({
                 type: 2,
                 title: '',
-                area: ['550px', '550px'],
+                area: ['700px', '700px'],
                 offset: 'auto',
-                content: '/toOrderDetail?id='+data.id,
-                shade:0.4
+                content: '/toOrderDetail?orderCode=' + data.orderCode,
+                shade: 0.4
             })
         } else if (obj.event == 'delivery') {
             layer.open({
@@ -122,17 +120,17 @@ layui.use(['form', 'table'], function () {
                 title: '',
                 area: ['450px', '290px'],
                 offset: 'auto',
-                content: '/toOrderDelivery?id='+data.id,
-                shade:0.4
+                content: '/toOrderDelivery?orderCode=' + data.orderCode,
+                shade: 0.4
             })
-        }else if (obj.event == 'doEdit') {
+        } else if (obj.event == 'doEdit') {
             layer.open({
                 type: 2,
                 title: '',
                 area: ['650px', '600px'],
                 offset: 'auto',
-                content: '/toOpeProduct?id='+data.id,
-                shade:0.4
+                content: '/toOpeProduct?id=' + data.id,
+                shade: 0.4
             })
         }
     });
@@ -198,14 +196,14 @@ layui.use(['form', 'table'], function () {
     /**
      * 添加商品
      */
-    doAdd = ()=>{
+    doAdd = () => {
         layer.open({
             type: 2,
             title: '',
             area: ['650px', '600px'],
             offset: 'auto',
             content: '/toOpeProduct?',
-            shade:0.4
+            shade: 0.4
         })
     }
 });

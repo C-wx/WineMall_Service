@@ -43,9 +43,9 @@ public class Order {
 
     private String status;
 
-    private Product product;
+    private Product product;        //商品实体
 
-    private String orderIds;
+    private String cartId;            //对应购物车表的ID
 
     public Long getId() {
         return id;
@@ -215,11 +215,11 @@ public class Order {
         this.product = product;
     }
 
-    public String getOrderIds() {
-        return orderIds;
+    public String getCartId() {
+        return cartId;
     }
 
-    public void setOrderIds(String orderIds) {
-        this.orderIds = orderIds;
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 }

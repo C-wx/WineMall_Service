@@ -87,6 +87,9 @@
                             </div>
                         </div>
                         <table id="orderTable" lay-filter="orderTable"></table>
+                        <script type="text/html" id="xuhao">
+                            {{d.LAY_TABLE_INDEX+1}}
+                        </script>
                     </div>
                 </div>
             </div>

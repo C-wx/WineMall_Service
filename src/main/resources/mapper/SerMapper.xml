@@ -3,7 +3,7 @@
 <mapper namespace="winemall.mapper.SerMapper">
   <resultMap id="BaseResultMap" type="winemall.bean.Ser">
     <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+    <result column="ORDER_CODE" jdbcType="VARCHAR" property="orderCode" />
     <result column="REASON" jdbcType="VARCHAR" property="reason" />
     <result column="REFUSE" jdbcType="VARCHAR" property="refuse" />
     <result column="TRACK_CODE" jdbcType="VARCHAR" property="trackCode" />
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, ORDER_ID, REASON, REFUSE, TRACK_CODE, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, ORDER_CODE, REASON, REFUSE, TRACK_CODE, CREATE_TIME, UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.SerExample" resultMap="BaseResultMap">
     select
@@ -104,18 +104,18 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Ser" useGeneratedKeys="true">
-    insert into hw_service (ORDER_ID, REASON, REFUSE, 
+    insert into hw_service (ORDER_CODE, REASON, REFUSE, 
       TRACK_CODE, CREATE_TIME, UPDATE_TIME, 
       STATUS)
-    values (#{orderId,jdbcType=BIGINT}, #{reason,jdbcType=VARCHAR}, #{refuse,jdbcType=VARCHAR}, 
+    values (#{orderCode,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{refuse,jdbcType=VARCHAR}, 
       #{trackCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Ser" useGeneratedKeys="true">
     insert into hw_service
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="orderId != null">
-        ORDER_ID,
+      <if test="orderCode != null">
+        ORDER_CODE,
       </if>
       <if test="reason != null">
         REASON,
@@ -137,8 +137,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="orderId != null">
-        #{orderId,jdbcType=BIGINT},
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
       </if>
       <if test="reason != null">
         #{reason,jdbcType=VARCHAR},
@@ -172,8 +172,8 @@
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.orderId != null">
-        ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      <if test="record.orderCode != null">
+        ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
       </if>
       <if test="record.reason != null">
         REASON = #{record.reason,jdbcType=VARCHAR},
@@ -201,7 +201,7 @@
   <update id="updateByExample" parameterType="map">
     update hw_service
     set ID = #{record.id,jdbcType=BIGINT},
-      ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
       REASON = #{record.reason,jdbcType=VARCHAR},
       REFUSE = #{record.refuse,jdbcType=VARCHAR},
       TRACK_CODE = #{record.trackCode,jdbcType=VARCHAR},
@@ -215,8 +215,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="winemall.bean.Ser">
     update hw_service
     <set>
-      <if test="orderId != null">
-        ORDER_ID = #{orderId,jdbcType=BIGINT},
+      <if test="orderCode != null">
+        ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
       </if>
       <if test="reason != null">
         REASON = #{reason,jdbcType=VARCHAR},
@@ -241,7 +241,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="winemall.bean.Ser">
     update hw_service
-    set ORDER_ID = #{orderId,jdbcType=BIGINT},
+    set ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
       REASON = #{reason,jdbcType=VARCHAR},
       REFUSE = #{refuse,jdbcType=VARCHAR},
       TRACK_CODE = #{trackCode,jdbcType=VARCHAR},

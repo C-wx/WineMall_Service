@@ -3,7 +3,8 @@
 <#assign base=request.contextPath />
 <head>
     <script src="${base}/js/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="${base}/css/login.css">
     <!--layui-->
     <script src="${base}/plugins/layui/layui.all.js"></script>
@@ -19,21 +20,13 @@
             <div class="layui-card">
                 <div class="layui-card-body" style="padding-top: 25px;">
                     <form class="layui-form">
-                        <input type="hidden" name="id" value=${order.id}>
-                        <div class="layui-form-item row">
-                            <div class="layui-col-md2">
-                                <label>商品名称：</label>
-                            </div>
-                            <div class="layui-col-md4">
-                                <input type="text" class="layui-input" value="${order.product.name}" style="cursor: not-allowed;background-color: #e9e9e9" disabled>
-                            </div>
-                        </div>
                         <div class="layui-form-item row">
                             <div class="layui-col-md2">
                                 <label>订单编号：</label>
                             </div>
                             <div class="layui-col-md4">
-                                <input type="text" class="layui-input" value="${order.orderCode}" style="cursor: not-allowed;background-color: #e9e9e9" disabled>
+                                <input type="text" class="layui-input" value="${orderCode}" name="orderCode"
+                                       style="cursor: not-allowed;background-color: #e9e9e9" disabled>
                             </div>
                         </div>
                         <div class="layui-form-item row">
@@ -41,7 +34,7 @@
                                 <label>快递单号：</label>
                             </div>
                             <div class="layui-col-md4">
-                                <input type="text" name="deliveryCode" autocomplete="off" class="layui-input" >
+                                <input type="text" name="deliveryCode" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item" style="margin-left: 290px">
@@ -62,7 +55,7 @@
 </style>
 <script>
     layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form ;
+        var form = layui.form;
         form.render();
 
         form.on('submit(submit)', function (data) {

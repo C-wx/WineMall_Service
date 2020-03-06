@@ -20,6 +20,7 @@ public class AddrService {
     public List<Addr> queryList(String openId) {
         AddrExample addrExample = new AddrExample();
         addrExample.createCriteria().andOpenIdEqualTo(openId).andStatusNotEqualTo("D");
+        addrExample.setOrderByClause("id desc");
         return addrMapper.selectByExample(addrExample);
     }
 

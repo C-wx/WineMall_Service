@@ -1,9 +1,10 @@
 package winemall.mapper;
 
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import winemall.bean.Order;
 import winemall.bean.OrderExample;
+
+import java.util.List;
 
 public interface OrderMapper {
     long countByExample(OrderExample example);
@@ -27,4 +28,8 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    List<String> getOrderCodes(@Param("orderStatus") String orderStatus);
+
+    List<Order> getALlOrderByOrderCode(@Param("orderCode") String orderCode);
 }

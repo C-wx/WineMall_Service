@@ -1,6 +1,5 @@
 package winemall.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import winemall.bean.Comment;
@@ -21,12 +20,11 @@ public class CommentService {
     public List<Comment> queryList(Comment comment) {
         CommentExample commentExample = new CommentExample();
         CommentExample.Criteria criteria = commentExample.createCriteria();
-        if (StringUtils.isNotBlank(comment.getParentType())) {
-            criteria.andParentTypeEqualTo(comment.getParentType());
-        }
         if (comment.getParentId() != null) {
             criteria.andParentIdEqualTo(comment.getParentId());
         }
+        criteria.andStatusEqualTo("E");
+        commentExample.setOrderByClause("id desc");
         return commentMapper.selectByExample(commentExample);
     }
 

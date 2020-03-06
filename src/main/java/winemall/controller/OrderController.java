@@ -2,7 +2,6 @@ package winemall.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import winemall.dto.Result;
 import winemall.service.OrderService;
 import winemall.service.ProductService;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -50,60 +48,69 @@ public class OrderController {
                             @RequestParam(value = "size", defaultValue = "10") Integer size,
                             @RequestParam(value = "sort", defaultValue = "id") String sort,
                             @RequestParam(value = "order", defaultValue = "desc") String order,
-                            String orderCode) {
+                            @RequestParam(value = "orderCode", defaultValue = "%") String orderCode) {
         PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  size：页大小
-        Order o = new Order();
-        if (StringUtils.isNotBlank(orderCode)) {
-            o.setOrderCode(orderCode);
-        }
-        List<Order> orderList = orderService.queryList(o);
-        orderList.stream().forEach(ol -> {
-            Product product = productService.queryDetail(ol.getProductId());
-            ol.setProduct(product);
-        });
+        List<Order> orderList = orderService.queryList(orderCode);
         PageInfo pageInfo = new PageInfo(orderList, 10);
         return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
     }
 
+    /**
+     * @param orderCode 订单编码
+     * @Explain 获取订单编码所对应的订单
+     */
     @RequestMapping("/toOrderDetail")
-    public String toOrderDetail(Long id, Model model) {
-        Order order = orderService.queryDetail(id);
-        Product product = productService.queryDetail(order.getProductId());
-        order.setProduct(product);
-        model.addAttribute("order", order);
+    public String toOrderDetail(String orderCode, Model model) {
+        List<Order> orderList = orderService.getOrders(orderCode);
+        for (Order order : orderList) {
+            Product product = productService.queryDetail(order.getProductId());
+            order.setProduct(product);
+        }
+        model.addAttribute("orderList", orderList);
         return "orderDetail";
     }
 
+    /**
+     * @param orderCode 订单编码
+     * @Explain 跳转发货页面
+     */
     @RequestMapping("/toOrderDelivery")
-    public String toOrderDelivery(Long id, Model model) {
-        Order order = orderService.queryDetail(id);
-        Product product = productService.queryDetail(order.getProductId());
-        order.setProduct(product);
-        model.addAttribute("order", order);
+    public String toOrderDelivery(String orderCode, Model model) {
+        model.addAttribute("orderCode", orderCode);
         return "orderDelivery";
     }
 
+    /**
+     * @param order 订单传输实体
+     * @Explain 操作订单
+     */
     @ResponseBody
     @RequestMapping("/doOpeOrder")
     public Object doOpeOrder(Order order) {
-        if (StringUtils.isNotBlank(order.getOrderIds())) {
-            String[] ids = order.getOrderIds().substring(1,order.getOrderIds().length() - 1).split(",");
-            Arrays.stream(ids).forEach(id->{
-                order.setId(Long.valueOf(id));
-                orderService.doEdit(order);
-            });
-        }else {
-            orderService.doEdit(order);
+        if ("WD".equals(order.getStatus())) {   //WD 为付款操作
+            order.setPayTime(new Date());       // 设置付款时间
+            List<Order> orderList = orderService.getOrders(order.getOrderCode());   //获取当前订单编码下的所有订单
+            for (Order o : orderList) {     //遍历订单
+                Product product = productService.queryDetail(o.getProductId());     //获取对应商品
+                product.setSaled(product.getSaled() + o.getNum());      //改变商品销量
+                product.setStock(product.getStock() - o.getNum());      //改变商品库存
+                productService.doEdit(product);
+            }
         }
+        orderService.doOpeOrder(order);
         return Result.success();
     }
 
+    /**
+     * @param order 订单传输实体
+     * @Explain 发货操作
+     */
     @ResponseBody
     @RequestMapping("/doOrderDelivery")
     public Object doOrderDelivery(Order order) {
         order.setDeliveryTime(new Date());
         order.setStatus("WC");
-        int res = orderService.doEdit(order);
-        return res > 0 ? Result.success() : Result.error();
+        orderService.doOpeOrder(order);
+        return Result.success();
     }
 }

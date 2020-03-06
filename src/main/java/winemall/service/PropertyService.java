@@ -24,6 +24,7 @@ public class PropertyService {
     public List<Property> queryList(Long id) {
         PropertyExample propertyExample = new PropertyExample();
         propertyExample.createCriteria().andProductIdEqualTo(id).andStatusNotEqualTo("D");
+        propertyExample.setOrderByClause("id desc");
         return propertyMapper.selectByExample(propertyExample);
     }
 }

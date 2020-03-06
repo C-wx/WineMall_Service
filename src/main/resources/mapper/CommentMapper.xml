@@ -3,13 +3,10 @@
 <mapper namespace="winemall.mapper.CommentMapper">
   <resultMap id="BaseResultMap" type="winemall.bean.Comment">
     <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+    <result column="ORDER_CODE" jdbcType="VARCHAR" property="orderCode" />
     <result column="PARENT_ID" jdbcType="BIGINT" property="parentId" />
-    <result column="PARENT_TYPE" jdbcType="VARCHAR" property="parentType" />
-    <result column="USER_ID" jdbcType="BIGINT" property="userId" />
     <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
-    <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -73,8 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, ORDER_ID, PARENT_ID, PARENT_TYPE, USER_ID, OPEN_ID, CONTENT, LIKE_COUNT, CREATE_TIME, 
-    UPDATE_TIME, STATUS
+    ID, ORDER_CODE, PARENT_ID, OPEN_ID, CONTENT, CREATE_TIME, UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="winemall.bean.CommentExample" resultMap="BaseResultMap">
     select
@@ -108,38 +104,27 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Comment" useGeneratedKeys="true">
-    insert into hw_comment (ORDER_ID, PARENT_ID, PARENT_TYPE, 
-      USER_ID, OPEN_ID, CONTENT, 
-      LIKE_COUNT, CREATE_TIME, UPDATE_TIME, 
+    insert into hw_comment (ORDER_CODE, PARENT_ID, OPEN_ID, 
+      CONTENT, CREATE_TIME, UPDATE_TIME, 
       STATUS)
-    values (#{orderId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{parentType,jdbcType=VARCHAR}, 
-      #{userId,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{likeCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+    values (#{orderCode,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="winemall.bean.Comment" useGeneratedKeys="true">
     insert into hw_comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="orderId != null">
-        ORDER_ID,
+      <if test="orderCode != null">
+        ORDER_CODE,
       </if>
       <if test="parentId != null">
         PARENT_ID,
-      </if>
-      <if test="parentType != null">
-        PARENT_TYPE,
-      </if>
-      <if test="userId != null">
-        USER_ID,
       </if>
       <if test="openId != null">
         OPEN_ID,
       </if>
       <if test="content != null">
         CONTENT,
-      </if>
-      <if test="likeCount != null">
-        LIKE_COUNT,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -152,26 +137,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="orderId != null">
-        #{orderId,jdbcType=BIGINT},
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null">
         #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="parentType != null">
-        #{parentType,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
       </if>
       <if test="openId != null">
         #{openId,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="likeCount != null">
-        #{likeCount,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -196,26 +172,17 @@
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.orderId != null">
-        ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      <if test="record.orderCode != null">
+        ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
       </if>
       <if test="record.parentId != null">
         PARENT_ID = #{record.parentId,jdbcType=BIGINT},
-      </if>
-      <if test="record.parentType != null">
-        PARENT_TYPE = #{record.parentType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userId != null">
-        USER_ID = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.openId != null">
         OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
         CONTENT = #{record.content,jdbcType=VARCHAR},
-      </if>
-      <if test="record.likeCount != null">
-        LIKE_COUNT = #{record.likeCount,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -234,13 +201,10 @@
   <update id="updateByExample" parameterType="map">
     update hw_comment
     set ID = #{record.id,jdbcType=BIGINT},
-      ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
       PARENT_ID = #{record.parentId,jdbcType=BIGINT},
-      PARENT_TYPE = #{record.parentType,jdbcType=VARCHAR},
-      USER_ID = #{record.userId,jdbcType=BIGINT},
       OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       CONTENT = #{record.content,jdbcType=VARCHAR},
-      LIKE_COUNT = #{record.likeCount,jdbcType=INTEGER},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -251,26 +215,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="winemall.bean.Comment">
     update hw_comment
     <set>
-      <if test="orderId != null">
-        ORDER_ID = #{orderId,jdbcType=BIGINT},
+      <if test="orderCode != null">
+        ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null">
         PARENT_ID = #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="parentType != null">
-        PARENT_TYPE = #{parentType,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null">
-        USER_ID = #{userId,jdbcType=BIGINT},
       </if>
       <if test="openId != null">
         OPEN_ID = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         CONTENT = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="likeCount != null">
-        LIKE_COUNT = #{likeCount,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -286,13 +241,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="winemall.bean.Comment">
     update hw_comment
-    set ORDER_ID = #{orderId,jdbcType=BIGINT},
+    set ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
       PARENT_ID = #{parentId,jdbcType=BIGINT},
-      PARENT_TYPE = #{parentType,jdbcType=VARCHAR},
-      USER_ID = #{userId,jdbcType=BIGINT},
       OPEN_ID = #{openId,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=VARCHAR},
-      LIKE_COUNT = #{likeCount,jdbcType=INTEGER},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}

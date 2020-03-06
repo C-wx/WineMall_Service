@@ -25,6 +25,11 @@ public class LoginController {
     @Autowired
     private MerchantService merchantService;
 
+    /**
+     * @Explain 登录操作
+     * @param  user 登陆用户传输实体
+     * @Return
+     */
     @ResponseBody
     @RequestMapping("/doLogin")
     public Object doLogin(UserDto user, HttpSession session) {
@@ -39,6 +44,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * @Explain 退出登录
+     */
     @GetMapping("/logout")
     public ModelAndView logout(HttpServletRequest request) {
         request.getSession().removeAttribute("LOGIN_USER");

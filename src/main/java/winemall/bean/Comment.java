@@ -5,19 +5,13 @@ import java.util.Date;
 public class Comment {
     private Long id;
 
-    private Long orderId;
+    private String orderCode;
 
     private Long parentId;
-
-    private String parentType;
-
-    private Long userId;
 
     private String openId;
 
     private String content;
-
-    private Integer likeCount;
 
     private Date createTime;
 
@@ -39,12 +33,12 @@ public class Comment {
         this.id = id;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public String getOrderCode() {
+        return orderCode;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode == null ? null : orderCode.trim();
     }
 
     public Long getParentId() {
@@ -53,22 +47,6 @@ public class Comment {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    public String getParentType() {
-        return parentType;
-    }
-
-    public void setParentType(String parentType) {
-        this.parentType = parentType == null ? null : parentType.trim();
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getOpenId() {
@@ -85,14 +63,6 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
-    }
-
-    public Integer getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
     }
 
     public Date getCreateTime() {

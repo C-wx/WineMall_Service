@@ -103,9 +103,17 @@ public class ProductController {
         return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
     }
 
+    /**
+     * @param product     商品传输实体
+     * @param files       图片流
+     * @param propertyDto 属性传输实体
+     * @Explain 删除/修改/添加  商品操作
+     */
     @ResponseBody
     @RequestMapping("/doOpeProduct")
-    public Object doOpeProduct(PropertyDto propertyDto, Product product, @RequestParam(value = "files", required = false) MultipartFile[] files, HttpSession session) {
+    public Object doOpeProduct(PropertyDto propertyDto, Product product,
+                               @RequestParam(value = "files", required = false) MultipartFile[] files,
+                               HttpSession session) {
         int res;
         if ("COMPLETE".equals(product.getStatus())) {       //删除商品操作
             res = productService.doDel(product);
@@ -113,7 +121,7 @@ public class ProductController {
             if (!ArrayUtils.isEmpty(files)) {
                 doUploadImage(product, files);
             }
-            if ("on".equals(product.getIsActive())) {
+            if ("on".equals(product.getIsActive())) {       // 是否参加活动   1：参加 0：不参加
                 product.setIsActive("1");
             } else {
                 product.setIsActive("0");
@@ -165,6 +173,9 @@ public class ProductController {
         return res > 0 ? Result.success() : Result.error("操作失败");
     }
 
+    /**
+     * @Explain 上传图片
+     */
     private void doUploadImage(Product product, @RequestParam(value = "files", required = false) MultipartFile[] files) {
         for (MultipartFile myFile : files) {
             if (StringUtils.isNotBlank(myFile.getOriginalFilename())) {
@@ -183,6 +194,10 @@ public class ProductController {
         }
     }
 
+    /**
+     * @param id 商品ID
+     * @Explain 跳转商品操作页
+     */
     @RequestMapping("/toOpeProduct")
     public String toOpeProduct(Long id, Model model) {
         if (id != null) {
@@ -201,6 +216,10 @@ public class ProductController {
         return "productOpe";
     }
 
+    /**
+     * @param id 图片ID
+     * @Explain 删除图片
+     */
     @ResponseBody
     @RequestMapping("/doDelImage")
     public Object doDelImage(Long id) {

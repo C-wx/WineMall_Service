@@ -3,7 +3,6 @@
 <#assign base=request.contextPath />
 <head>
     <script src="${base}/js/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="${base}/css/login.css">
     <!--layui-->
     <script src="${base}/plugins/layui/layui.all.js"></script>
@@ -20,7 +19,7 @@
                 <div class="layui-card-body" style="padding-top: 25px;">
                     <form class="layui-form">
                         <input type="hidden" name="id" value=${id!}>
-                        <input type="hidden" name="orderId" value=${oid!}>
+                        <input type="hidden" name="orderCode" value=${orderCode!}>
                         <input type="hidden" name="status" value="F">
                         <div class="layui-form-item row">
                             <div class="layui-col-md2">
@@ -48,7 +47,7 @@
 </style>
 <script>
     layui.use(['form'], function () {
-        var form = layui.form ;
+        var form = layui.form;
         form.render();
 
         form.on('submit(submit)', function (data) {

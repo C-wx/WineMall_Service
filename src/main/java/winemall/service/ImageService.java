@@ -24,6 +24,7 @@ public class ImageService {
     public List<Image> queryList(Long id) {
         ImageExample imageExample = new ImageExample();
         imageExample.createCriteria().andProductIdEqualTo(id).andStatusEqualTo("E");
+        imageExample.setOrderByClause("id desc");
         return imageMapper.selectByExample(imageExample);
     }
 

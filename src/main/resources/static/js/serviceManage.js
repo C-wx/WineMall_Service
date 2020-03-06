@@ -19,21 +19,12 @@ layui.use(['form', 'table'], function () {
         }
         , cols: [[
             {
-                field: 'productName'
-                , title: '商品名称'
-                , align: 'center'
-                , Width: 202
-                , templet: (d) => {
-                    return d.product.name;
-                }
-            }
-            , {
                 field: 'orderCode'
                 , title: '订单编码'
                 , align: 'center'
                 , width: 234
                 , templet: (d) => {
-                    return d.order.orderCode;
+                    return d.orderCode;
                 }
             }
             , {
@@ -75,10 +66,13 @@ layui.use(['form', 'table'], function () {
                             break;
                         case "S":
                             html += '已同意';
-                            html += '&nbsp;&nbsp;&nbsp;<a class="layui-btn layui-btn-success layui-btn-sm" lay-event="agree">退款</a>';
+                            html += '&nbsp;&nbsp;&nbsp;<a class="layui-btn layui-btn-success layui-btn-sm" lay-event="tuikuan">退款</a>';
                             break;
                         case "F":
                             html += '已拒绝';
+                            break;
+                        case "SS":
+                            html += '退款到账';
                             break;
                     }
                     return html;
@@ -103,12 +97,13 @@ layui.use(['form', 'table'], function () {
                 shade: 0.4
             })
         } else if (obj.event == 'refuse') {
+            console.log(data)
             layer.open({
                 type: 2,
                 title: '',
                 area: ['450px', '260px'],
                 offset: 'auto',
-                content: '/toRefuse?id=' + data.id + "&oid = " + data.order.id,
+                content: '/toRefuse?id=' + data.id + '&orderCode=' + data.orderCode,
                 shade: 0.4
             })
         } else if (obj.event == 'agree') {
@@ -118,8 +113,33 @@ layui.use(['form', 'table'], function () {
                     type: "POST",
                     data: {
                         "id": data.id,
-                        "orderId": data.order.id,
+                        "orderCode": data.orderCode,
                         "status": "S"
+                    },
+                    success: function (res) {
+                        if (res.code == 200) {
+                            layer.msg("操作成功", {icon: 6, time: 800});
+                            setTimeout(() => {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                parent.location.reload();
+                            }, 800);
+                        } else {
+                            layer.msg(res.msg, {icon: 5, time: 800});
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        } else if (obj.event == 'tuikuan') {
+            layer.confirm('是否同意该请求?', {icon: 3, title: '提示'}, function (index) {
+                $.ajax({
+                    url: "/doOpeService",
+                    type: "POST",
+                    data: {
+                        "id": data.id,
+                        "orderCode": data.orderCode,
+                        "status": "SS"
                     },
                     success: function (res) {
                         if (res.code == 200) {

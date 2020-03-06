@@ -19,6 +19,10 @@ public class AddrController {
     @Autowired
     private AddrService addrService;
 
+    /**
+     * @param openId 用户标识ID
+     * @Explain 获取用户的地址列表
+     */
     @ResponseBody
     @RequestMapping("/getAddrList")
     public Object getAddrList(String openId) {
@@ -26,18 +30,27 @@ public class AddrController {
         return Result.success(addrList);
     }
 
+    /**
+     * @param addr 地址传输实体
+     * @Explain 更新/删除地址
+     */
     @ResponseBody
     @RequestMapping("/doOpeAddr")
     private Object doOpeAddr(Addr addr) {
         int res;
         if (addr.getId() != null) {         //ID不为空说明是更新/删除操作
             res = addrService.doEdit(addr);
-        } else {
+        } else {                                //删除操作
             res = addrService.doAdd(addr);
         }
         return res > 0 ? Result.success() : Result.error();
     }
 
+    /**
+     * @param id 地址ID
+     * @Explain 获取地址详情
+     * @Return
+     */
     @ResponseBody
     @RequestMapping("/getAddrDetail")
     public Object getAddrDetail(Long id) {

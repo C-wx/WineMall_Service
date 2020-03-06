@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <br>
-                    <button type="button" class="btn btn-lg btn-block btn-success" id="login_btn">Sign in</button>
+                    <button type="button" class="btn btn-lg btn-block btn-success" id="login_btn">登录</button>
                 </form>
             </div>
         </div>
